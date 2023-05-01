@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "630704941324",
+    "project_id": "xchange-d10db",
+    "storage_bucket": "xchange-d10db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630704941324:android:4a1d4ab269282105370129",
+        "android_client_info": {
+          "package_name": "com.example.xchangebarter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630704941324-d1oh0pi1a0unpug0rdhq50epksfk04m2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.xchangebarter",
+            "certificate_hash": "1bbe9b19be91551fa0ece066bf184de67a5286f0"
+          }
+        },
+        {
+          "client_id": "630704941324-v3e9iib156s1ie6r4vo8s6gn37uaf5ju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDYlqeOgJNoG-b6i7vsonw1fPCCXr797M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630704941324-v3e9iib156s1ie6r4vo8s6gn37uaf5ju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

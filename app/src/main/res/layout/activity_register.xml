@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <TextView
+        android:text="XChange"
+        android:textSize="60dp"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        />
+
+    <EditText
+        android:id="@+id/rgstr_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Name"
+        android:inputType="textPersonName"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        />
+
+    <EditText
+        android:id="@+id/rgstr_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        />
+
+    <EditText
+        android:id="@+id/rgstr_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        />
+
+    <Button
+        android:id="@+id/rgstr_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        />
+</RelativeLayout>
