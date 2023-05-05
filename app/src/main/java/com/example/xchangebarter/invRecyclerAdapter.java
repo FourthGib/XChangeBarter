@@ -52,7 +52,7 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(itemArrayList.get(position).getName().equals("Itto")) {
+        //if(itemArrayList.get(position).getName().equals("Itto")) {
             holder.name_view.setText(itemArrayList.get(position).getName());
             holder.descrip_view.setText(itemArrayList.get(position).getDescription());
             holder.tags_view.setText(itemArrayList.get(position).getTags());
@@ -60,7 +60,7 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
             //Glide for images
             Glide.with(mContext).load(itemArrayList.get(position).getImgUrl()).into(holder.img_view);
             item_count++;
-      }
+      /*}
         else{
             item_count--;
             holder.name_view.setText("Place Holder Name");
@@ -68,13 +68,15 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
             holder.tags_view.setText("Please add new Item");
         }
 
+       */
+
     }
 
 
 
     @Override
     public int getItemCount() {
-        return item_count;//itemArrayList.size();
+        return itemArrayList.size();//item_count;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
