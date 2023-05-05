@@ -6,18 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <Button
-        android:id="@+id/profile_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile Back"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteX="165dp"
-        tools:layout_editor_absoluteY="166dp" />
-
     <LinearLayout
-        android:id="@+id/prof_home_panel"
+        android:id="@+id/notif_home_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -56,5 +46,52 @@
             />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/prof_pfp"
+        android:layout_width="match_parent"
+        android:layout_height="214dp"
+        app:srcCompat="@drawable/ic_photo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/prof_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="User Name"
+        android:layout_below="@+id/prof_pfp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <Button
+        android:id="@+id/prof_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Info"
+        android:layout_below="@+id/prof_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <Button
+        android:id="@+id/prof_trade_hist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trade History"
+        android:layout_below="@+id/prof_user_info"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:id="@+id/prof_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_below="@+id/prof_trade_hist"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
 
 </RelativeLayout>

@@ -7,7 +7,6 @@
     tools:context=".AddItemActivity">
 
     <ImageView
-
         android:id="@+id/add_item_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"

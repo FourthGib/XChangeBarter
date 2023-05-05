@@ -7,30 +7,43 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private Button back;
+    private TextView username;
 
-    private ImageView prof_home, prof_bell, prof_inventory, prof_profile;
+    private Button logout, trade_hist, change_user_info;
+
+    private ImageView prof_home, prof_bell, prof_inventory, prof_profile, prof_pfp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        back = (Button) findViewById(R.id.profile_back);
 
-        back.setOnClickListener(new View.OnClickListener() {
+        init();
+
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ProfileActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
-                Intent homeIntent = new Intent(ProfileActivity.this, Home2Activity.class);
-                startActivity(homeIntent);
+                Intent logoutIntent = new Intent(ProfileActivity.this, MainActivity.class);
+                startActivity(logoutIntent);
                 finish();
             }
         });
-        init();
+
+        change_user_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProfileActivity.this, "Change User Info", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ProfileActivity.this, editUserInfoActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         prof_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,5 +90,9 @@ public class ProfileActivity extends AppCompatActivity {
         prof_bell = findViewById(R.id.prof_notification_btn);
         prof_inventory = findViewById(R.id.prof_inventory_btn);
         prof_profile = findViewById(R.id.prof_profile_btn);
+        logout = findViewById(R.id.prof_logout);
+        trade_hist = findViewById(R.id.prof_trade_hist);
+        change_user_info = findViewById(R.id.prof_user_info);
+        prof_pfp = findViewById(R.id.prof_pfp);
     }
 }
