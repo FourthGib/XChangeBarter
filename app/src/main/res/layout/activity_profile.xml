@@ -22,11 +22,11 @@
             />
 
         <ImageView
-            android:id="@+id/prof_notification_btn"
+            android:id="@+id/notif_tradeblock_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
             android:layout_marginLeft="35dp"
-            android:src="@drawable/ic_bell"
+            android:src="@drawable/ic_tradeblock_foreground"
             />
 
         <ImageView
@@ -70,10 +70,11 @@
         android:id="@+id/prof_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Info"
         android:layout_below="@+id/prof_name"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:text="My Info" />
 
     <Button
         android:id="@+id/prof_trade_hist"
