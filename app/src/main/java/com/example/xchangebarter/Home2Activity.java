@@ -71,7 +71,7 @@ public class Home2Activity extends AppCompatActivity {
 
     private void init(){
         home = findViewById(R.id.home_btn);
-        bell = findViewById(R.id.notification_btn);
+        bell = findViewById(R.id.tradeblock_btn);
         inventory = findViewById(R.id.inventory_btn);
         profile = findViewById(R.id.profile_btn);
     }

@@ -35,11 +35,11 @@
             />
 
         <ImageView
-            android:id="@+id/inv_notification_btn"
+            android:id="@+id/notif_tradeblock_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
             android:layout_marginLeft="35dp"
-            android:src="@drawable/ic_bell"
+            android:src="@drawable/ic_tradeblock_foreground"
             />
 
         <ImageView
