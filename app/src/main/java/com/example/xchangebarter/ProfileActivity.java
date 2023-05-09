@@ -16,7 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Button logout, trade_hist, change_user_info;
 
-    private ImageView prof_home, prof_bell, prof_inventory, prof_profile, prof_pfp;
+    private ImageView prof_home, prof_trade, prof_inventory, prof_profile, prof_pfp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,69 +25,51 @@ public class ProfileActivity extends AppCompatActivity {
 
         init();
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
-                Intent logoutIntent = new Intent(ProfileActivity.this, MainActivity.class);
-                startActivity(logoutIntent);
-                finish();
-            }
+        logout.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
+            Intent logoutIntent = new Intent(ProfileActivity.this, MainActivity.class);
+            startActivity(logoutIntent);
+            finish();
         });
 
-        change_user_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Change User Info", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ProfileActivity.this, editUserInfoActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        change_user_info.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Change User Info", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfileActivity.this, editUserInfoActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        prof_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
-                Intent homeIntent = new Intent(ProfileActivity.this, Home2Activity.class);
-                startActivity(homeIntent);
-            }
+        prof_home.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            Intent homeIntent = new Intent(ProfileActivity.this, Home2Activity.class);
+            startActivity(homeIntent);
         });
 
-        prof_bell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-                Intent bellIntent = new Intent(ProfileActivity.this, NotificationActivity.class);
-                startActivity(bellIntent);
-                finish();
-            }
+        prof_trade.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
+            Intent bellIntent = new Intent(ProfileActivity.this, NotificationActivity.class);
+            startActivity(bellIntent);
+            finish();
         });
 
-        prof_inventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
-                Intent invIntent = new Intent(ProfileActivity.this, InventoryActivity.class);
-                startActivity(invIntent);
-                finish();
-            }
+        prof_inventory.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
+            Intent invIntent = new Intent(ProfileActivity.this, InventoryActivity.class);
+            startActivity(invIntent);
+            finish();
         });
 
-        prof_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProfileActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
-                Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
-                startActivity(profileIntent);
-                finish();
-            }
+        prof_profile.setOnClickListener(v -> {
+            Toast.makeText(ProfileActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
+            Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
+            startActivity(profileIntent);
+            finish();
         });
     }
 
     private void init(){
         prof_home = findViewById(R.id.prof_home_btn);
-        prof_bell = findViewById(R.id.prof_notification_btn);
+        prof_trade = findViewById(R.id.notif_tradeblock_btn);
         prof_inventory = findViewById(R.id.prof_inventory_btn);
         prof_profile = findViewById(R.id.prof_profile_btn);
         logout = findViewById(R.id.prof_logout);

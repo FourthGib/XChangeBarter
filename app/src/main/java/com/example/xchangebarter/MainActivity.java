@@ -1,22 +1,21 @@
 package com.example.xchangebarter;
+
 import android.content.Intent;
 import android.os.Bundle;
-import com.example.xchangebarter.Actor.Users;
-import com.example.xchangebarter.CurrentActor.OnlineUser;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import android.widget.EditText;
-import android.widget.Button;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.xchangebarter.Actor.Users;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private EditText login_email, login_password;
@@ -43,13 +42,11 @@ public class MainActivity extends AppCompatActivity {
                 if (email.isEmpty()) {
                     login_email.setError("Email is required");
                     login_email.requestFocus();
-                    return;
                 }
 
                 else if (password.isEmpty()) {
                     login_password.setError("Password is required");
                     login_password.requestFocus();
-                    return;
                 }
                 else {
                     // for simplicity, we will just show a Toast message to indicate success
@@ -74,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.child("Users").child(email).exists()) {
                             Users usersData = snapshot.child("Users").child(email).getValue(Users.class);
+                            assert usersData != null;
                             if(usersData.getEmail().equals(email)) {
                                 if(usersData.getPassword().equals(password)) {
                                     Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
@@ -103,16 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // open registration activity or fragment here
-                // for example, you can start a new activity using an Intent
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                // finish the current activity to prevent the user from going back to the login screen
-                finish();
-            }
+        registerButton.setOnClickListener(v -> {
+            // open registration activity or fragment here
+            // for example, you can start a new activity using an Intent
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            // finish the current activity to prevent the user from going back to the login screen
+            finish();
         });
     }
 }

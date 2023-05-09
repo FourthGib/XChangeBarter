@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class InventoryActivity extends AppCompatActivity {
 
@@ -37,7 +38,7 @@ public class InventoryActivity extends AppCompatActivity {
 
     private invRecyclerAdapter ra;
     private Button back;
-    private ImageView inv_home, inv_bell, inv_inventory, inv_profile, inv_add;
+    private ImageView inv_home, inv_trade, inv_inventory, inv_profile, inv_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,52 +59,37 @@ public class InventoryActivity extends AppCompatActivity {
         GetItem();
 
 
-        inv_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InventoryActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
-                Intent homeIntent = new Intent(InventoryActivity.this, Home2Activity.class);
-                startActivity(homeIntent);
-            }
+        inv_home.setOnClickListener(v -> {
+            Toast.makeText(InventoryActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            Intent homeIntent = new Intent(InventoryActivity.this, Home2Activity.class);
+            startActivity(homeIntent);
         });
 
-        inv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InventoryActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
-                Intent addIntent = new Intent(InventoryActivity.this, AddItemActivity.class);
-                startActivity(addIntent);
-            }
+        inv_add.setOnClickListener(v -> {
+            Toast.makeText(InventoryActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            Intent addIntent = new Intent(InventoryActivity.this, AddItemActivity.class);
+            startActivity(addIntent);
         });
 
-        inv_bell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InventoryActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-                Intent bellIntent = new Intent(InventoryActivity.this, NotificationActivity.class);
-                startActivity(bellIntent);
-                finish();
-            }
+        inv_trade.setOnClickListener(v -> {
+            Toast.makeText(InventoryActivity.this, "Trade Click", Toast.LENGTH_SHORT).show();
+            Intent bellIntent = new Intent(InventoryActivity.this, NotificationActivity.class);
+            startActivity(bellIntent);
+            finish();
         });
 
-        inv_inventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InventoryActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
-                Intent invIntent = new Intent(InventoryActivity.this, InventoryActivity.class);
-                startActivity(invIntent);
-                finish();
-            }
+        inv_inventory.setOnClickListener(v -> {
+            Toast.makeText(InventoryActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
+            Intent invIntent = new Intent(InventoryActivity.this, InventoryActivity.class);
+            startActivity(invIntent);
+            finish();
         });
 
-        inv_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InventoryActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
-                Intent profileIntent = new Intent(InventoryActivity.this, ProfileActivity.class);
-                startActivity(profileIntent);
-                finish();
-            }
+        inv_profile.setOnClickListener(v -> {
+            Toast.makeText(InventoryActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
+            Intent profileIntent = new Intent(InventoryActivity.this, ProfileActivity.class);
+            startActivity(profileIntent);
+            finish();
         });
     }
 
@@ -118,10 +104,10 @@ public class InventoryActivity extends AppCompatActivity {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
-                    item.setImgUrl(snap.child("image").getValue().toString());
-                    item.setName(snap.child("title").getValue().toString());
-                    item.setDescription(snap.child("description").getValue().toString());
-                    item.setTags(snap.child("tags").getValue().toString());
+                    item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
+                    item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
+                    item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
+                    item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
 
                     itemArrayList.add(item);
                 }
@@ -155,7 +141,7 @@ public class InventoryActivity extends AppCompatActivity {
         rv = findViewById(R.id.inv_rv);
 
         inv_home = findViewById(R.id.inv_home_btn);
-        inv_bell = findViewById(R.id.inv_notification_btn);
+        inv_trade = findViewById(R.id.notif_tradeblock_btn);
         inv_inventory = findViewById(R.id.inv_inventory_btn);
         inv_profile = findViewById(R.id.inv_profile_btn);
         inv_add = findViewById(R.id.inv_add_btn);

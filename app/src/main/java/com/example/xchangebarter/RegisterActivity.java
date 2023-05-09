@@ -3,6 +3,7 @@ package com.example.xchangebarter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-
+import java.util.regex.*;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText rgstr_name, rgstr_email, rgstr_password;
     private Button rgstr_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +47,16 @@ public class RegisterActivity extends AppCompatActivity {
                 if (fullName.isEmpty()) {
                     rgstr_name.setError("Full name is required");
                     rgstr_name.requestFocus();
-                    return;
                 }
 
                 else if (email.isEmpty()) {
                     rgstr_email.setError("Email is required");
                     rgstr_email.requestFocus();
-                    return;
                 }
 
                 else if (password.isEmpty()) {
                     rgstr_password.setError("Password is required");
                     rgstr_password.requestFocus();
-                    return;
                 }
 
                 else {
@@ -86,22 +83,31 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(!(snapshot.child("Users").child(email).exists())){
+                            //check if csusm email
+                            Pattern p = Pattern.compile("@csusm.edu");
+                            Matcher m = p.matcher(email);
                             HashMap<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("email",email);
-                            userInfo.put("name",fullName);
-                            userInfo.put("password",password);
+                            if (m.matches()) {
+                                userInfo.put("email", email);
+                                userInfo.put("name", fullName);
+                                userInfo.put("password", password);
 
-                            RootRef.child("Users").child(email).updateChildren(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
+
+                                RootRef.child("Users").child(email).updateChildren(userInfo).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }
-                                }
-                            });
+                                });
+                            } else {    // is not csusm email
+                                Toast.makeText(RegisterActivity.this, "Needs to be a valid CSUSM email", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }
                         else{
                             Toast.makeText(RegisterActivity.this, "Email already Registered", Toast.LENGTH_SHORT).show();

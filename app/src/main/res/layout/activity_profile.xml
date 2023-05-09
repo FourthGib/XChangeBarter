@@ -17,33 +17,33 @@
             android:id="@+id/prof_home_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:src="@drawable/home_icon"
-            />
+            android:contentDescription="@string/home_button" />
 
         <ImageView
             android:id="@+id/notif_tradeblock_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
             android:src="@drawable/ic_tradeblock_foreground"
-            />
+            android:contentDescription="@string/trade_block_btn" />
 
         <ImageView
             android:id="@+id/prof_inventory_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
             android:src="@drawable/ic_inventory"
-            />
+            android:contentDescription="@string/inventory_button" />
 
         <ImageView
             android:id="@+id/prof_profile_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
             android:src="@drawable/ic_profile"
-            />
+            android:contentDescription="@string/profile_button" />
 
     </LinearLayout>
 
@@ -54,6 +54,7 @@
         app:srcCompat="@drawable/ic_photo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/profile_picture"
         />
 
     <TextView
@@ -61,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="User Name"
+        android:text="@string/user_name"
         android:layout_below="@+id/prof_pfp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
@@ -74,13 +75,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
-        android:text="My Info" />
+        android:text="@string/my_info" />
 
     <Button
         android:id="@+id/prof_trade_hist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Trade History"
+        android:text="@string/trade_history"
         android:layout_below="@+id/prof_user_info"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
@@ -89,7 +90,7 @@
         android:id="@+id/prof_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         android:layout_below="@+id/prof_trade_hist"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />

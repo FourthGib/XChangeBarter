@@ -16,9 +16,9 @@
             android:id="@+id/single_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item name"
+            android:text="@string/item_name"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
         <ImageView
@@ -26,28 +26,28 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@+id/single_item_name"
-            android:scaleType="centerCrop"
             android:layout_marginTop="5dp"
-            />
+            android:contentDescription="@string/image_of_item_for_trade"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/single_item_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item description"
+            android:text="@string/item_description"
             android:layout_below="@+id/single_item_img"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
         />
 
         <TextView
             android:id="@+id/single_item_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item tags"
+            android:text="@string/item_tags"
             android:layout_below="@+id/single_item_description"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
     </RelativeLayout>
 

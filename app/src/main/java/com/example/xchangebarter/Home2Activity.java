@@ -1,7 +1,11 @@
 package com.example.xchangebarter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +13,32 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.xchangebarter.Item.Item;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Home2Activity extends AppCompatActivity {
 
-    private ImageView home, bell, inventory, profile;
+    RecyclerView rv;
+
+    private DatabaseReference inv_item_ref;
+    private StorageReference inv_img_ref;
+
+    private ArrayList<Item> itemArrayList;
+    private Context mContext;
+
+    private invRecyclerAdapter ra;
+    private Button back;
+    private ImageView home, trade, inventory, profile;
 
     private Button exitBtn;
     @Override
@@ -20,58 +47,101 @@ public class Home2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_home2);
         exitBtn = (Button) findViewById(R.id.button);
 
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent logout = new Intent(Home2Activity.this, MainActivity.class);
-                startActivity(logout);
-            }
+        exitBtn.setOnClickListener(v -> {
+            Intent logout = new Intent(Home2Activity.this, MainActivity.class);
+            startActivity(logout);
         });
         init();
 
-        home.setOnClickListener(new View.OnClickListener() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rv.setLayoutManager(layoutManager);
+        rv.setHasFixedSize(true);
+
+        inv_item_ref = FirebaseDatabase.getInstance().getReference();
+        inv_img_ref = FirebaseStorage.getInstance().getReference();
+
+        itemArrayList = new ArrayList<>();
+
+        Clear();
+
+        GetItem();
+
+        home.setOnClickListener(v -> {
+            Toast.makeText(Home2Activity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            //Intent homeIntent = new Intent(Home2Activity.this, Home2Activity.class);
+            //startActivity(homeIntent);
+        });
+
+        trade.setOnClickListener(v -> {
+            Toast.makeText(Home2Activity.this, "Trade Click", Toast.LENGTH_SHORT).show();
+            Intent bellIntent = new Intent(Home2Activity.this, NotificationActivity.class);
+            startActivity(bellIntent);
+            finish();
+        });
+
+        inventory.setOnClickListener(v -> {
+            Toast.makeText(Home2Activity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
+            Intent invIntent = new Intent(Home2Activity.this, InventoryActivity.class);
+            startActivity(invIntent);
+            finish();
+        });
+
+        profile.setOnClickListener(v -> {
+            Toast.makeText(Home2Activity.this, "Profile Click", Toast.LENGTH_SHORT).show();
+            Intent profileIntent = new Intent(Home2Activity.this, ProfileActivity.class);
+            startActivity(profileIntent);
+            finish();
+        });
+    }
+    private void GetItem(){
+
+        Query query = inv_item_ref.child("otherItemInfo");
+
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(Home2Activity.this, "Home Click", Toast.LENGTH_SHORT).show();
-                //Intent homeIntent = new Intent(Home2Activity.this, Home2Activity.class);
-                //startActivity(homeIntent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Clear();
+                for(DataSnapshot snap:snapshot.getChildren()){
+                    Item item = new Item();
+                    item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
+                    item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
+                    item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
+                    item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
+
+                    itemArrayList.add(item);
+                }
+
+                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList);
+                rv.setAdapter(ra);
+                ra.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
-        bell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Home2Activity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-                Intent bellIntent = new Intent(Home2Activity.this, NotificationActivity.class);
-                startActivity(bellIntent);
-                finish();
-            }
-        });
+    }
 
-        inventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Home2Activity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
-                Intent invIntent = new Intent(Home2Activity.this, InventoryActivity.class);
-                startActivity(invIntent);
-                finish();
+    private void Clear(){
+        if(itemArrayList != null){
+            itemArrayList.clear();
+            if(ra!=null){
+                ra.notifyDataSetChanged();
             }
-        });
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Home2Activity.this, "Profile Click", Toast.LENGTH_SHORT).show();
-                Intent profileIntent = new Intent(Home2Activity.this, ProfileActivity.class);
-                startActivity(profileIntent);
-                finish();
-            }
-        });
+        }
+        else{
+            itemArrayList = new ArrayList<>();
+        }
     }
 
     private void init(){
+
+        rv = findViewById(R.id.inv_rv);
         home = findViewById(R.id.home_btn);
-        bell = findViewById(R.id.tradeblock_btn);
+        trade = findViewById(R.id.tradeblock_btn);
         inventory = findViewById(R.id.inventory_btn);
         profile = findViewById(R.id.profile_btn);
     }

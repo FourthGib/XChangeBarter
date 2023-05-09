@@ -10,44 +10,53 @@
         android:id="@+id/edit_pfp"
         android:layout_width="match_parent"
         android:layout_height="214dp"
-        app:srcCompat="@drawable/ic_photo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        />
+        android:contentDescription="@string/profile_picture"
+        app:srcCompat="@drawable/ic_photo"
+        tools:ignore="ImageContrastCheck" />
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_pfp"
         android:layout_centerHorizontal="true"
-        android:hint = "Current name"
-        android:layout_below="@+id/edit_pfp" />
+        android:autofillHints=""
+        android:hint="@string/current_name"
+        android:inputType="text"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/edit_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_name"
         android:layout_centerHorizontal="true"
-        android:hint = "Current email"
-        android:layout_below="@+id/edit_name" />
+        android:autofillHints=""
+        android:hint="@string/current_email"
+        android:inputType="text|textEmailAddress"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/edit_save_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Changes"
+        android:text="@string/save_changes"
         android:layout_below="@+id/edit_email"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        tools:ignore="VisualLintButtonSize" />
 
     <Button
         android:id="@+id/edit_back_to_prof"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back to Profile"
+        android:text="@string/back_to_profile"
         android:layout_below="@+id/edit_save_info"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        tools:ignore="VisualLintButtonSize" />
 
 
 </RelativeLayout>
