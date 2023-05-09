@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,8 +14,9 @@
         android:id="@+id/inv_add_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="600dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="600dp"
+        android:contentDescription="@string/add_button"
         android:src="@drawable/ic_add" />
 
     <LinearLayout
@@ -28,35 +28,35 @@
 
         <ImageView
             android:id="@+id/inv_home_btn"
-            android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="50dp"
-            android:src="@drawable/home_icon"
-            />
+            android:layout_height="50dp"
+            android:layout_marginStart="50dp"
+            android:contentDescription="@string/home_button"
+            android:src="@drawable/home_icon" />
 
         <ImageView
             android:id="@+id/notif_tradeblock_btn"
-            android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
-            android:src="@drawable/ic_tradeblock_foreground"
-            />
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/tradeblock_button"
+            android:src="@drawable/ic_tradeblock_foreground" />
 
         <ImageView
             android:id="@+id/inv_inventory_btn"
-            android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
-            android:src="@drawable/ic_inventory"
-            />
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/inventory_button"
+            android:src="@drawable/ic_inventory" />
 
         <ImageView
             android:id="@+id/inv_profile_btn"
-            android:layout_height="50dp"
             android:layout_width="50dp"
-            android:layout_marginLeft="35dp"
-            android:src="@drawable/ic_profile"
-            />
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/profile_button"
+            android:src="@drawable/ic_profile" />
 
     </LinearLayout>
 </RelativeLayout>

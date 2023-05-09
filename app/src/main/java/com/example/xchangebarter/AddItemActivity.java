@@ -1,25 +1,17 @@
 package com.example.xchangebarter;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -29,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AddItemActivity extends AppCompatActivity {
     /*
@@ -177,30 +170,16 @@ public class AddItemActivity extends AppCompatActivity {
 
         init();
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AddItemActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
-                Intent homeIntent = new Intent(AddItemActivity.this, Home2Activity.class);
-                startActivity(homeIntent);
-                finish();
-            }
-
+        back.setOnClickListener(v -> {
+            Toast.makeText(AddItemActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
+            Intent homeIntent = new Intent(AddItemActivity.this, Home2Activity.class);
+            startActivity(homeIntent);
+            finish();
         });
 
-        itemPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takePhoto.launch("image/*");
-            }
-        });
+        itemPhoto.setOnClickListener(v -> takePhoto.launch("image/*"));
 
-        saveItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkItem();
-            }
-        });
+        saveItem.setOnClickListener(v -> checkItem());
 
     }
 
@@ -248,33 +227,24 @@ public class AddItemActivity extends AppCompatActivity {
         StorageReference path = itemPhotoRef.child(itemPic.getLastPathSegment() + randID + ".jpeg"); //.webm
         final UploadTask uploadTask = path.putFile(itemPic);
 
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // Get the download URL of the uploaded image
-                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Store the download URL in a variable
-                        imgUrl = uri.toString();
-                        Toast.makeText(AddItemActivity.this, "Picture is in the storage!", Toast.LENGTH_SHORT).show();
-                        // Call the method to store item info in the database
-                        ItemInfoToDB();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Print out error if something goes wrong
-                String serverMsg = e.toString();
-                Toast.makeText(AddItemActivity.this, "Error: " + serverMsg, Toast.LENGTH_SHORT).show();
-            }
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Get the download URL of the uploaded image
+            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                // Store the download URL in a variable
+                imgUrl = uri.toString();
+                Toast.makeText(AddItemActivity.this, "Picture is in the storage!", Toast.LENGTH_SHORT).show();
+                // Call the method to store item info in the database
+                ItemInfoToDB();
+            });
+        }).addOnFailureListener(e -> {
+            // Print out error if something goes wrong
+            String serverMsg = e.toString();
+            Toast.makeText(AddItemActivity.this, "Error: " + serverMsg, Toast.LENGTH_SHORT).show();
         });
 
 
         /*
-        //check that photo was successfuly sent
+        //check that photo was successfully sent
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -325,21 +295,18 @@ public class AddItemActivity extends AppCompatActivity {
                 itemMap.put("title", title);
                 itemMap.put("tags", tags);
 
-                itemInfoRef.child(randID).updateChildren(itemMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        //success = item info is in the database
-                        if(task.isSuccessful()){
-                            Toast.makeText(AddItemActivity.this, "Item info was stored in the databse", Toast.LENGTH_SHORT).show();
-                            Intent invIntent = new Intent(AddItemActivity.this, InventoryActivity.class);
-                            startActivity(invIntent);
-                            finish();
-                        }
-                        //fail = error
-                        else {
-                            String serverMsg = task.getException().toString();
-                            Toast.makeText(AddItemActivity.this, "Error item wasn't stored: " + serverMsg, Toast.LENGTH_SHORT).show();
-                        }
+                itemInfoRef.child(randID).updateChildren(itemMap).addOnCompleteListener(task -> {
+                    //success = item info is in the database
+                    if(task.isSuccessful()){
+                        Toast.makeText(AddItemActivity.this, "Item info was stored in the database", Toast.LENGTH_SHORT).show();
+                        Intent invIntent = new Intent(AddItemActivity.this, InventoryActivity.class);
+                        startActivity(invIntent);
+                        finish();
+                    }
+                    //fail = error
+                    else {
+                        String serverMsg = Objects.requireNonNull(task.getException()).toString();
+                        Toast.makeText(AddItemActivity.this, "Error item wasn't stored: " + serverMsg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -350,13 +317,10 @@ public class AddItemActivity extends AppCompatActivity {
 
         takePhoto = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        itemPhoto.setImageURI(result);
-                        itemPic = result;
-                    }
-        });
+                result -> {
+                    itemPhoto.setImageURI(result);
+                    itemPic = result;
+                });
         itemPhoto = findViewById(R.id.add_item_image);
         itemName = findViewById(R.id.item_title);
         itemDescription = findViewById(R.id.item_description);
