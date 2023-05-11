@@ -35,7 +35,7 @@
             android:src="@drawable/home_icon" />
 
         <ImageView
-            android:id="@+id/notif_tradeblock_btn"
+            android:id="@+id/tb_tradeblock_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="35dp"

@@ -17,10 +17,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView prof_home, prof_trade, prof_inventory, prof_profile, prof_pfp;
 
+    private String user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        // get user email for filter and to pass to other activities
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user = extras.getString("user");
+        }
 
         init();
 
@@ -68,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void init(){
         prof_home = findViewById(R.id.prof_home_btn);
-        prof_trade = findViewById(R.id.notif_tradeblock_btn);
+        prof_trade = findViewById(R.id.tb_tradeblock_btn);
         prof_inventory = findViewById(R.id.prof_inventory_btn);
         prof_profile = findViewById(R.id.prof_profile_btn);
         logout = findViewById(R.id.prof_logout);
