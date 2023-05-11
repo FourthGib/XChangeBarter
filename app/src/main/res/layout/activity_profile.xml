@@ -7,7 +7,7 @@
     tools:context=".ProfileActivity">
 
     <LinearLayout
-        android:id="@+id/notif_home_panel"
+        android:id="@+id/tb_home_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -22,7 +22,7 @@
             android:contentDescription="@string/home_button" />
 
         <ImageView
-            android:id="@+id/notif_tradeblock_btn"
+            android:id="@+id/tb_tradeblock_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
             android:layout_marginStart="35dp"
