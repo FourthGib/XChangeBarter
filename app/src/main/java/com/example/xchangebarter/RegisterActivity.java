@@ -60,19 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 else {
-                    // if all fields are valid, register the user
-                    // you can use Firebase Authentication or your own backend API here
-                    // for simplicity, we will just show a Toast message to indicate success
-                    /*
-                    Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                     */
-
                     CheckEmail(fullName,email, password);
-
                 }
             }
 
@@ -84,25 +72,29 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(!(snapshot.child("Users").child(email).exists())){
                             //check if csusm email
-                            Pattern p = Pattern.compile("@csusm.edu");
+                            Pattern p = Pattern.compile("\\w+\\d{3}@csusm.edu");
                             Matcher m = p.matcher(email);
                             HashMap<String, Object> userInfo = new HashMap<>();
                             if (m.matches()) {
-                                userInfo.put("email", email);
+                                // take @csusm.edu off email string to allow firebase to add
+                                int atIndex = email.indexOf('@');
+                                String userName = email.substring(0, atIndex);
+                                System.out.println(userName);
+                                userInfo.put("email", userName);
                                 userInfo.put("name", fullName);
                                 userInfo.put("password", password);
 
 
                                 RootRef.child("Users").child(email).updateChildren(userInfo).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }
                                 });
                             } else {    // is not csusm email
-                                Toast.makeText(RegisterActivity.this, "Needs to be a valid CSUSM email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Needs to be a valid CSUSM email", Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(intent);
@@ -110,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            Toast.makeText(RegisterActivity.this, "Email already Registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Email already Registered", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
