@@ -149,7 +149,7 @@ public class AddItemActivity extends AppCompatActivity {
     private EditText itemName, itemDescription, itemTags;
     private Button saveItem, back;
 
-    private String title, description, tags, currentDate, currentTime, randID, imgUrl;
+    private String title, description, tags, currentDate, currentTime, randID, imgUrl, user;
 
     //storage for photos
     private StorageReference itemPhotoRef;
@@ -288,6 +288,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                 //put info to hashmap
                 itemMap.put("itemID", randID);
+                itemMap.put("userID", user);
                 itemMap.put("date", currentDate);
                 itemMap.put("time", currentTime);
                 itemMap.put("image", imgUrl);

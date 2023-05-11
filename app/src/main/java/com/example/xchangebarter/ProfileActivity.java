@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         prof_trade.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-            Intent bellIntent = new Intent(ProfileActivity.this, NotificationActivity.class);
+            Intent bellIntent = new Intent(ProfileActivity.this, TradeBlockActivity.class);
             startActivity(bellIntent);
             finish();
         });

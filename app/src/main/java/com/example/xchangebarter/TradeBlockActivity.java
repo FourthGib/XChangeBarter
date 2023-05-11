@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class NotificationActivity extends AppCompatActivity {
+public class TradeBlockActivity extends AppCompatActivity {
 
     private Button back;
 
@@ -17,40 +17,40 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification);
+        setContentView(R.layout.activity_trade_block);
         back = (Button) findViewById(R.id.notif_back);
 
         back.setOnClickListener(v -> {
-            Toast.makeText(NotificationActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
-            Intent homeIntent = new Intent(NotificationActivity.this, Home2Activity.class);
+            Toast.makeText(TradeBlockActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
+            Intent homeIntent = new Intent(TradeBlockActivity.this, Home2Activity.class);
             startActivity(homeIntent);
             finish();
         });
         init();
 
         notif_home.setOnClickListener(v -> {
-            Toast.makeText(NotificationActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
-            Intent homeIntent = new Intent(NotificationActivity.this, Home2Activity.class);
+            Toast.makeText(TradeBlockActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            Intent homeIntent = new Intent(TradeBlockActivity.this, Home2Activity.class);
             startActivity(homeIntent);
         });
 
         notif_bell.setOnClickListener(v -> {
-            Toast.makeText(NotificationActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-            Intent bellIntent = new Intent(NotificationActivity.this, NotificationActivity.class);
+            Toast.makeText(TradeBlockActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
+            Intent bellIntent = new Intent(TradeBlockActivity.this, TradeBlockActivity.class);
             startActivity(bellIntent);
             finish();
         });
 
         notif_inventory.setOnClickListener(v -> {
-            Toast.makeText(NotificationActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
-            Intent invIntent = new Intent(NotificationActivity.this, InventoryActivity.class);
+            Toast.makeText(TradeBlockActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
+            Intent invIntent = new Intent(TradeBlockActivity.this, InventoryActivity.class);
             startActivity(invIntent);
             finish();
         });
 
         notif_profile.setOnClickListener(v -> {
-            Toast.makeText(NotificationActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
-            Intent profileIntent = new Intent(NotificationActivity.this, ProfileActivity.class);
+            Toast.makeText(TradeBlockActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
+            Intent profileIntent = new Intent(TradeBlockActivity.this, ProfileActivity.class);
             startActivity(profileIntent);
             finish();
         });
