@@ -28,7 +28,7 @@
             android:name=".InventoryActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".TradeBlockActivity"
             android:exported="false" />
         <activity
             android:name=".Home2Activity"

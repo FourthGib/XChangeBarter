@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = login_email.getText().toString().trim();
+                // take off @csusm.edu to match database value
+                int atIndex = email.indexOf('@');
+                email = email.substring(0, atIndex);
                 String password = login_password.getText().toString().trim();
 
                 // perform email and password validation here
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                                 if(usersData.getPassword().equals(password)) {
                                     Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, Home2Activity.class);
+                                    // save email in intent to pass to next activity
+                                    intent.putExtra("user", email);
                                     startActivity(intent);
                                     finish();
                                 }

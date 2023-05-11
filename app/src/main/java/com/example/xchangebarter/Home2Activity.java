@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,17 +39,19 @@ public class Home2Activity extends AppCompatActivity {
     private Button back;
     private ImageView home, trade, inventory, profile;
 
-    private Button exitBtn;
+
+    private String user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home2);
-        exitBtn = (Button) findViewById(R.id.button);
 
-        exitBtn.setOnClickListener(v -> {
-            Intent logout = new Intent(Home2Activity.this, MainActivity.class);
-            startActivity(logout);
-        });
+        // get user email for filter and to pass to other activities
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user = extras.getString("user");
+        }
+
         init();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -74,14 +75,16 @@ public class Home2Activity extends AppCompatActivity {
 
         trade.setOnClickListener(v -> {
             Toast.makeText(Home2Activity.this, "Trade Click", Toast.LENGTH_SHORT).show();
-            Intent bellIntent = new Intent(Home2Activity.this, NotificationActivity.class);
-            startActivity(bellIntent);
+            Intent tradeBlockIntent = new Intent(Home2Activity.this, TradeBlockActivity.class);
+            tradeBlockIntent.putExtra("user", user);
+            startActivity(tradeBlockIntent);
             finish();
         });
 
         inventory.setOnClickListener(v -> {
             Toast.makeText(Home2Activity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
             Intent invIntent = new Intent(Home2Activity.this, InventoryActivity.class);
+            invIntent.putExtra("user", user);
             startActivity(invIntent);
             finish();
         });
@@ -89,6 +92,7 @@ public class Home2Activity extends AppCompatActivity {
         profile.setOnClickListener(v -> {
             Toast.makeText(Home2Activity.this, "Profile Click", Toast.LENGTH_SHORT).show();
             Intent profileIntent = new Intent(Home2Activity.this, ProfileActivity.class);
+            profileIntent.putExtra("user", user);
             startActivity(profileIntent);
             finish();
         });
@@ -108,8 +112,12 @@ public class Home2Activity extends AppCompatActivity {
                     item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
+                    item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
+                    // only add items to list that do not belong to user
+                    if (!Objects.equals(item.getUser(), user)) {
+                        itemArrayList.add(item);
+                    }
 
-                    itemArrayList.add(item);
                 }
 
                 ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList);
@@ -139,7 +147,7 @@ public class Home2Activity extends AppCompatActivity {
 
     private void init(){
 
-        rv = findViewById(R.id.inv_rv);
+        rv = findViewById(R.id.home_rv);
         home = findViewById(R.id.home_btn);
         trade = findViewById(R.id.tradeblock_btn);
         inventory = findViewById(R.id.inventory_btn);
