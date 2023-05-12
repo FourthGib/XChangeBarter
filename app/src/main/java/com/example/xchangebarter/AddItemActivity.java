@@ -167,10 +167,7 @@ public class AddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            user = extras.getString("user");
-        }
+
         init();
 
         back.setOnClickListener(v -> {
@@ -291,7 +288,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                 //put info to hashmap
                 itemMap.put("itemID", randID);
-                itemMap.put("user", user);
+                itemMap.put("userID", user);
                 itemMap.put("date", currentDate);
                 itemMap.put("time", currentTime);
                 itemMap.put("image", imgUrl);
