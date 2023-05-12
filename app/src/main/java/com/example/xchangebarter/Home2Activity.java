@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,8 +29,8 @@ public class Home2Activity extends AppCompatActivity {
 
     RecyclerView rv;
 
-    private DatabaseReference home_item_ref;
-    private StorageReference home_img_ref;
+    private DatabaseReference inv_item_ref;
+    private StorageReference inv_img_ref;
 
     private ArrayList<Item> itemArrayList;
     private Context mContext;
@@ -51,7 +50,6 @@ public class Home2Activity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
-            Log.d("user Contents", user);
         }
 
         init();
@@ -60,8 +58,8 @@ public class Home2Activity extends AppCompatActivity {
         rv.setLayoutManager(layoutManager);
         rv.setHasFixedSize(true);
 
-        home_item_ref = FirebaseDatabase.getInstance().getReference();
-        home_img_ref = FirebaseStorage.getInstance().getReference();
+        inv_item_ref = FirebaseDatabase.getInstance().getReference();
+        inv_img_ref = FirebaseStorage.getInstance().getReference();
 
         itemArrayList = new ArrayList<>();
 
@@ -101,7 +99,7 @@ public class Home2Activity extends AppCompatActivity {
     }
     private void GetItem(){
 
-        Query query = home_item_ref.child("otherItemInfo");
+        Query query = inv_item_ref.child("otherItemInfo");
 
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -117,7 +115,6 @@ public class Home2Activity extends AppCompatActivity {
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
                     // only add items to list that do not belong to user
                     if (!Objects.equals(item.getUser(), user)) {
-                        Log.d("GetItemUserCheck", user);
                         itemArrayList.add(item);
                     }
 
