@@ -167,7 +167,11 @@ public class AddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-
+        // get user email for filter and to pass to other activities
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user = extras.getString("user");
+        }
         init();
 
         back.setOnClickListener(v -> {
@@ -288,7 +292,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                 //put info to hashmap
                 itemMap.put("itemID", randID);
-                itemMap.put("userID", user);
+                itemMap.put("user", user);
                 itemMap.put("date", currentDate);
                 itemMap.put("time", currentTime);
                 itemMap.put("image", imgUrl);
@@ -301,6 +305,7 @@ public class AddItemActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         Toast.makeText(AddItemActivity.this, "Item info was stored in the database", Toast.LENGTH_SHORT).show();
                         Intent invIntent = new Intent(AddItemActivity.this, InventoryActivity.class);
+                        invIntent.putExtra("user", user);
                         startActivity(invIntent);
                         finish();
                     }
