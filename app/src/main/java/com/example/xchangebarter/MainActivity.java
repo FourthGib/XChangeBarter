@@ -17,6 +17,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
     private EditText login_email, login_password;
     private Button loginButton, registerButton;
@@ -35,9 +38,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = login_email.getText().toString().trim();
-                // take off @csusm.edu to match database value
-                int atIndex = email.indexOf('@');
-                email = email.substring(0, atIndex);
+                //check if csusm email
+                Pattern p = Pattern.compile("\\w+\\d{3}@csusm.edu");
+                Matcher m = p.matcher(email);
+                if(m.matches()) {
+                    // take off @csusm.edu to match database value
+                    int atIndex = email.indexOf('@');
+                    email = email.substring(0, atIndex);
+                } else {
+                    login_email.setError("Needs to be a CSUSM email");
+                    login_email.requestFocus();
+                }
                 String password = login_password.getText().toString().trim();
 
                 // perform email and password validation here
@@ -51,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     login_password.setError("Password is required");
                     login_password.requestFocus();
                 }
-                else {
+                else if (m.matches()){
                     // for simplicity, we will just show a Toast message to indicate success
                     //Toast.makeText(MainActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                     // if email and password are valid, log the user in

@@ -117,6 +117,7 @@ public class Home2Activity extends AppCompatActivity {
                     if (!Objects.equals(item.getUser(), user)) {
                         itemArrayList.add(item);
                     }
+                    itemArrayList.add(item);
 
                 }
 

@@ -73,7 +73,7 @@ public class InventoryActivity extends AppCompatActivity {
         });
 
         inv_add.setOnClickListener(v -> {
-            Toast.makeText(InventoryActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
+            Toast.makeText(InventoryActivity.this, "Add Click", Toast.LENGTH_SHORT).show();
             Intent addIntent = new Intent(InventoryActivity.this, AddItemActivity.class);
             addIntent.putExtra("user", user);
             startActivity(addIntent);
@@ -119,6 +119,7 @@ public class InventoryActivity extends AppCompatActivity {
                     item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
+                    item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
                     // only show in inventory if item belongs to user
                     if (Objects.equals(item.getUser(), user)){
                         itemArrayList.add(item);

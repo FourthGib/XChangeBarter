@@ -27,8 +27,7 @@
             android:layout_height="200dp"
             android:layout_below="@+id/single_item_name"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/image_of_item_for_trade"
-            android:scaleType="centerCrop" />
+            android:contentDescription="@string/image_of_item_for_trade" />
 
         <TextView
             android:id="@+id/single_item_description"
