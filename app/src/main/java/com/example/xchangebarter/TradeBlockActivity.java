@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TradeBlockActivity extends AppCompatActivity {
 
-    private Button back;
     private ImageView tb_home, tb_tradeblock, tb_inventory, tb_profile;
 
     private RecyclerView active_rv;
@@ -27,14 +26,7 @@ public class TradeBlockActivity extends AppCompatActivity {
         if (extras != null) {
             user = extras.getString("user");
         }
-        back = (Button) findViewById(R.id.notif_back);
 
-        back.setOnClickListener(v -> {
-            Toast.makeText(TradeBlockActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
-            Intent homeIntent = new Intent(TradeBlockActivity.this, Home2Activity.class);
-            startActivity(homeIntent);
-            finish();
-        });
         init();
 
         tb_home.setOnClickListener(v -> {

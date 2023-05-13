@@ -37,7 +37,6 @@ public class Home2Activity extends AppCompatActivity {
     private Context mContext;
 
     private invRecyclerAdapter ra;
-    private Button back;
     private ImageView home, trade, inventory, profile;
 
 
@@ -54,7 +53,8 @@ public class Home2Activity extends AppCompatActivity {
         }
 
         init();
-
+        // TODO: Make the items clickable, create trade object on click bundle as extra
+        //  and start trade activity
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         rv.setHasFixedSize(true);
@@ -109,6 +109,7 @@ public class Home2Activity extends AppCompatActivity {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
+                    item.setID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
                     item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
                     item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());

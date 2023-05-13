@@ -36,7 +36,6 @@ public class InventoryActivity extends AppCompatActivity {
     private Context mContext;
 
     private invRecyclerAdapter ra;
-    private Button back;
     private ImageView inv_home, inv_trade, inv_inventory, inv_profile, inv_add;
 
     private String user;
@@ -115,6 +114,7 @@ public class InventoryActivity extends AppCompatActivity {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
+                    item.setID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
                     item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
                     item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());

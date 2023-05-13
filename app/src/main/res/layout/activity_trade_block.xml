@@ -57,7 +57,7 @@
         android:paddingBottom="6dp"
         android:fontFamily="sans-serif-condensed"
         android:includeFontPadding="true"
-        android:text="Trade Block"
+        android:text="@string/trade_block"
         android:textSize="24sp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -74,7 +74,7 @@
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:text="Active Trades" />
+        android:text="@string/active_trades" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pending_rv"
@@ -91,13 +91,8 @@
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:text="Pending Trades" />
+        android:text="@string/pending_trades" />
 
-    <Button
-        android:id="@+id/notif_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back" />
 
 
 </RelativeLayout>
