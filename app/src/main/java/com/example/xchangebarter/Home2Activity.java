@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -114,8 +115,10 @@ public class Home2Activity extends AppCompatActivity {
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
                     // only add items to list that do not belong to user
+                    Log.d("Home2", "onDataChange: checking user");
                     if (!Objects.equals(item.getUser(), user)) {
                         itemArrayList.add(item);
+                        Log.d("Home2", "onDataChange: added item");
                     }
                     itemArrayList.add(item);
 
