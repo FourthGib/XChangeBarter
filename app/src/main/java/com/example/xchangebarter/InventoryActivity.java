@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class InventoryActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
+            Log.d("USER", "Inventory onCreate: " + user);
         }
         init();
 
@@ -70,6 +72,7 @@ public class InventoryActivity extends AppCompatActivity {
             Intent homeIntent = new Intent(InventoryActivity.this, Home2Activity.class);
             homeIntent.putExtra("user", user);
             startActivity(homeIntent);
+            finish();
         });
 
         inv_add.setOnClickListener(v -> {
@@ -77,6 +80,7 @@ public class InventoryActivity extends AppCompatActivity {
             Intent addIntent = new Intent(InventoryActivity.this, AddItemActivity.class);
             addIntent.putExtra("user", user);
             startActivity(addIntent);
+            finish();
         });
 
         inv_trade.setOnClickListener(v -> {
