@@ -47,8 +47,10 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private Spinner placeSpin;
     private RecyclerView tt_rv;
     private invRecyclerAdapter ra;
+    private invRecyclerAdapter.RecyclerViewOnClickListener rvListener;
 
     private String user, giveItemID, place;
+    private boolean isChosen;   //boolean to check if item has been selected to give in trade
     ArrayList<String> places;
 
     private Trade trade;
@@ -63,7 +65,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             user = extras.getString("user");
             trade = extras.getParcelable("trade");
         }
-
+        isChosen = false;
         placeSpin = (Spinner) findViewById(R.id.place_spinner);
         places = new ArrayList<>();
         places.add("Outside Library Floor 1");
@@ -139,18 +141,22 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         // TODO: set on click listeners for the send, reject, accept, and counter buttons
         // complete trade details and go to trade block to see that trade has been sent
         send.setOnClickListener(v -> {
-            // invert current user and other user viewpoint since this will be received from other user
-            trade.setIncoming(true);
-            trade.setCurrentUser(trade.getOtherUser());
-            trade.setOtherUser(user);
-            trade.setGiveItem(trade.getReceiveItem());
-            trade.setReceiveItem(giveItemID);
-            trade.setPlace(place);
-            Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
-            Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
-            tbIntent.putExtra("user", user);
-            tbIntent.putExtra("trade", trade);
-            startActivity(tbIntent);
+            if (isChosen) {
+                // invert current user and other user viewpoint since this will be received from other user
+                trade.setIncoming(true);
+                trade.setCurrentUser(trade.getOtherUser());
+                trade.setOtherUser(user);
+                trade.setGiveItem(trade.getReceiveItem());
+                trade.setReceiveItem(giveItemID);
+                trade.setPlace(place);
+                Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
+                Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
+                tbIntent.putExtra("user", user);
+                tbIntent.putExtra("trade", trade);
+                startActivity(tbIntent);
+            } else {
+                Toast.makeText(TradeActivity.this, "Must Choose Item to Give!", Toast.LENGTH_LONG).show();
+            }
         });
 
         // trade is complete add to user's completed trades
@@ -176,19 +182,23 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         // send counter trade
         counter.setOnClickListener(v -> {
-            // invert current user and other user viewpoint since this will be received from other user
-            trade.setIncoming(true);
-            trade.setCurrentUser(trade.getOtherUser());
-            trade.setOtherUser(user);
-            trade.setGiveItem(trade.getReceiveItem());
-            trade.setReceiveItem(giveItemID);
-            trade.setPlace(place);
-            trade.setCountered(true);
-            Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
-            Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
-            tbIntent.putExtra("user", user);
-            tbIntent.putExtra("trade", trade);
-            startActivity(tbIntent);
+            if (isChosen) {
+                // invert current user and other user viewpoint since this will be received from other user
+                trade.setIncoming(true);
+                trade.setCurrentUser(trade.getOtherUser());
+                trade.setOtherUser(user);
+                trade.setGiveItem(trade.getReceiveItem());
+                trade.setReceiveItem(giveItemID);
+                trade.setPlace(place);
+                trade.setCountered(true);
+                Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
+                Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
+                tbIntent.putExtra("user", user);
+                tbIntent.putExtra("trade", trade);
+                startActivity(tbIntent);
+            } else {
+                Toast.makeText(TradeActivity.this, "Must Choose Item to Give!", Toast.LENGTH_LONG).show();
+            }
         });
 
 
@@ -246,8 +256,9 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                     }
                 }
 
-                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList);
+                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
                 tt_rv.setAdapter(ra);
+                setRVOnClickListener();
                 ra.notifyDataSetChanged();
             }
 
@@ -257,6 +268,22 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+    }
+
+    private void setRVOnClickListener() {
+        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View v, int pos) {
+                // this click signifies an item was chosen to give
+                giveItemID = itemArrayList.get(pos).getID();
+                trade.setGiveItem(giveItemID);
+                isChosen = true;
+                // set trade ID of item to associate it with this trade
+                //TODO: get item from database with the itemID of giveItemID and set the tradeID to
+                // the tradeID of trade
+                Toast.makeText(TradeActivity.this, "Item Selected!", Toast.LENGTH_LONG).show();
+            }
+        };
     }
 
     private void Clear(){

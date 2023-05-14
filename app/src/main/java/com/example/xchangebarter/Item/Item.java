@@ -1,7 +1,7 @@
 package com.example.xchangebarter.Item;
 
 public class Item {
-    String ID, name, description, tags, imgUrl, user;
+    String ID, name, description, tags, imgUrl, user, tradeID;
 
     public Item(){}
 
@@ -57,4 +57,12 @@ public class Item {
     public String getUser(){ return user; }
 
     public void setUser(String user) { this.user = user; }
+
+    public String getTradeID() {
+        return tradeID;
+    }
+
+    public void setTradeID(String tradeID) {
+        this.tradeID = tradeID;
+    }
 }

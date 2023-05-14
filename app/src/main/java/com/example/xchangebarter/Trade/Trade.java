@@ -26,7 +26,7 @@ public class Trade implements Parcelable{
     boolean countered;  // not sure if we need this yet, here just in case
 
     // Constructor leaving out item to be traded to other user, since it is unknown at start of trade
-    Trade(String received, String currentUser, String otherUser, boolean fresh, boolean incoming){
+    public Trade(String received, String currentUser, String otherUser, boolean fresh, boolean incoming){
         setTradeID();
         receiveItem = received;
         this.currentUser = currentUser;
@@ -36,7 +36,7 @@ public class Trade implements Parcelable{
     }
 
     // Constructor for using with Parcel
-    Trade(Parcel in){
+    public Trade(Parcel in){
         tradeID = in.readString();
         receiveItem = in.readString();
         currentUser = in.readString();
