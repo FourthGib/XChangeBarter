@@ -2,6 +2,7 @@ package com.example.xchangebarter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(MainActivity.this, Home2Activity.class);
                                     // save email in intent to pass to next activity
                                     intent.putExtra("user", email);
+                                    Log.d("USER", "onDataChange: " + email);
                                     startActivity(intent);
                                     finish();
                                 }

@@ -3,6 +3,7 @@ package com.example.xchangebarter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -171,6 +172,7 @@ public class AddItemActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
+            Log.d("USER", "AddItem onCreate: " + user);
         }
         init();
 
@@ -289,7 +291,7 @@ public class AddItemActivity extends AppCompatActivity {
             //save item info to database
             private void ItemInfoToDB(){
                 HashMap<String, Object> itemMap = new HashMap<>();
-
+                Log.d("USER", "Before itemMap.put ItemInfoToDB: " + user);
                 //put info to hashmap
                 itemMap.put("itemID", randID);
                 itemMap.put("user", user);
@@ -305,6 +307,7 @@ public class AddItemActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         Toast.makeText(AddItemActivity.this, "Item info was stored in the database", Toast.LENGTH_SHORT).show();
                         Intent invIntent = new Intent(AddItemActivity.this, InventoryActivity.class);
+                        Log.d("USER", "Before putExtra ItemInfoToDB: " + user);
                         invIntent.putExtra("user", user);
                         startActivity(invIntent);
                         finish();

@@ -54,6 +54,7 @@ public class Home2Activity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
+            Log.d("USER", "Home2 onCreate: " + user);
         }
 
         init();
