@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.xchangebarter.Item.Item;
+import com.example.xchangebarter.Trade.Trade;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,11 +39,12 @@ public class Home2Activity extends AppCompatActivity {
     private Context mContext;
 
     private invRecyclerAdapter ra;
-    private Button back;
+    private invRecyclerAdapter.RecyclerViewOnClickListener rvListener;
     private ImageView home, trade, inventory, profile;
 
 
     private String user;
+    private Trade newTrade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,23 +112,22 @@ public class Home2Activity extends AppCompatActivity {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
+                    item.setID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
                     item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
                     item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
                     // only add items to list that do not belong to user
-                    Log.d("Home2", "onDataChange: checking user");
                     if (!Objects.equals(item.getUser(), user)) {
                         itemArrayList.add(item);
-                        Log.d("Home2", "onDataChange: added item");
                     }
-                    itemArrayList.add(item);
 
                 }
 
-                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList);
+                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
                 rv.setAdapter(ra);
+                setRVOnClickListener();
                 ra.notifyDataSetChanged();
             }
 
@@ -135,6 +137,26 @@ public class Home2Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setRVOnClickListener() {
+        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
+            @Override
+            public void onClick(View v, int pos) {
+                // this click will go to fresh trade activity with chosen item
+                Intent tradeIntent = new Intent(Home2Activity.this, TradeActivity.class);
+                //save trade details
+                String otherUser = itemArrayList.get(pos).getUser();
+                String itemID = itemArrayList.get(pos).getID();
+                newTrade = new Trade(itemID, user, otherUser, true, false);
+                tradeIntent.putExtra("user", user);
+                tradeIntent.putExtra("trade", newTrade);
+                //set trade ID of item to associate it with new trade
+                //TODO: pull item with itemID and set the tradeID to the tradeID of newTrade
+                startActivity(tradeIntent);
+
+            }
+        };
     }
 
     private void Clear(){

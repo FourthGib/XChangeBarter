@@ -36,4 +36,17 @@
     <string name="item_name">item name</string>
     <string name="item_description">item description</string>
     <string name="item_tags">item tags</string>
+    <string name="item_chosen_to_trade_for">Item Chosen to Trade For</string>
+    <string name="trade">Trade</string>
+    <string name="trade_for">Trade For</string>
+    <string name="trade_to">Trade To</string>
+    <string name="back">Back</string>
+    <string name="active_trades">Active Trades</string>
+    <string name="pending_trades">Pending Trades</string>
+    <string name="send_trade">Send</string>
+    <string name="reject_trade">Reject</string>
+    <string name="counter_offer">Counter</string>
+    <string name="item_received_in_trade">Item Received in Trade</string>
+    <string name="item_given_in_trade">Item Given in Trade</string>
+    <string name="accept_trade">Accept</string>
 </resources>

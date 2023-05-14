@@ -27,9 +27,12 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
 
     private int item_count = 1;
 
-    public invRecyclerAdapter(Context mContext, ArrayList<Item> itemArrayList) {
+    private RecyclerViewOnClickListener rvListener;
+
+    public invRecyclerAdapter(Context mContext, ArrayList<Item> itemArrayList, RecyclerViewOnClickListener rvListener) {
         this.mContext = mContext;
         this.itemArrayList = itemArrayList;
+        this.rvListener = rvListener;
     }
 
     @NonNull
@@ -73,13 +76,16 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
     }
 
 
-
     @Override
     public int getItemCount() {
         return itemArrayList.size();//item_count;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public interface RecyclerViewOnClickListener{
+        void onClick(View v, int pos);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView img_view;
         TextView name_view, descrip_view, tags_view;
 
@@ -90,6 +96,12 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
             name_view = itemView.findViewById(R.id.single_item_name);
             descrip_view = itemView.findViewById(R.id.single_item_description);
             tags_view = itemView.findViewById(R.id.single_item_tags);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            rvListener.onClick(view, getAdapterPosition());
         }
     }
 }

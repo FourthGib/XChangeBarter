@@ -16,6 +16,9 @@
         android:theme="@style/Theme.XChangeBarter"
         tools:targetApi="31">
         <activity
+            android:name=".TradeActivity"
+            android:exported="false" />
+        <activity
             android:name=".editUserInfoActivity"
             android:exported="false" />
         <activity

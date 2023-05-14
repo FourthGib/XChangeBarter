@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TradeActivity">
+
+    <LinearLayout
+        android:id="@+id/trade_home_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="670dp">
+
+        <ImageView
+            android:id="@+id/trade_home_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="50dp"
+            android:contentDescription="@string/home_button"
+            android:src="@drawable/home_icon" />
+
+        <ImageView
+            android:id="@+id/trade_tradeblock_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/trade_block_btn"
+            android:src="@drawable/ic_tradeblock_foreground" />
+
+        <ImageView
+            android:id="@+id/trade_inventory_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/inventory_button"
+            android:src="@drawable/ic_inventory" />
+
+        <ImageView
+            android:id="@+id/trade_profile_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:contentDescription="@string/profile_button"
+            android:src="@drawable/ic_profile" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewTrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="6dp"
+        android:fontFamily="sans-serif-condensed"
+        android:includeFontPadding="true"
+        android:text="@string/trade"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/trade_for_rv"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_below="@id/textViewTrade"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/item_chosen_to_trade_for" />
+    <TextView
+        android:id="@+id/textViewTradeFor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trade_for_rv"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/item_received_in_trade" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trade_to_rv"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_below="@id/textViewTradeFor"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textViewTradeTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trade_to_rv"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/item_given_in_trade" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearBtnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="28dp"
+        android:layout_below="@id/textViewTradeTo">
+        <Button
+            android:id="@+id/sendTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_trade" />
+        <Button
+            android:id="@+id/acceptTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accept_trade" />
+
+        <Button
+            android:id="@+id/rejectTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reject_trade" />
+        <Button
+            android:id="@+id/counterTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/counter_offer" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/notif_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
+
+    <Spinner
+        android:id="@+id/place_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearBtnLayout"
+        android:minHeight="48dp" />
+
+
+</RelativeLayout>
