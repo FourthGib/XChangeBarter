@@ -263,16 +263,16 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         trade_inventory.setOnClickListener(v -> {
             Toast.makeText(TradeActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
             Intent invIntent = new Intent(TradeActivity.this, InventoryActivity.class);
-            startActivity(invIntent);
             invIntent.putExtra("user", user);
+            startActivity(invIntent);
             finish();
         });
 
         trade_profile.setOnClickListener(v -> {
             Toast.makeText(TradeActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
             Intent profileIntent = new Intent(TradeActivity.this, ProfileActivity.class);
-            startActivity(profileIntent);
             profileIntent.putExtra("user", user);
+            startActivity(profileIntent);
             finish();
         });
         setRVOnClickListener();
