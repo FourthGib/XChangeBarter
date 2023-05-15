@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="670dp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/trade_home_btn"
@@ -60,18 +61,49 @@
         android:text="@string/trade"
         android:textSize="24sp" />
 
-    <ImageView
-        android:id="@+id/trade_for_rv"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_below="@id/textViewTrade"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/item_chosen_to_trade_for" />
+        <TextView
+            android:id="@+id/received_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTrade"
+            android:text="@string/item_name"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:id="@+id/trade_for_rv"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_below="@+id/textViewTrade"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/item_chosen_to_trade_for"  />
+
+        <TextView
+            android:id="@+id/received_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_description"
+            android:layout_below="@+id/trade_for_rv"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/received_item_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_tags"
+            android:layout_below="@+id/received_item_description"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
+
     <TextView
         android:id="@+id/textViewTradeFor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/trade_for_rv"
+        android:layout_below="@+id/received_item_tags"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"

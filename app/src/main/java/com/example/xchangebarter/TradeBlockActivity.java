@@ -104,6 +104,7 @@ public class TradeBlockActivity extends AppCompatActivity {
             profileIntent.putExtra("user", user);
             finish();
         });
+        //setActiveRVOnClickListener();
     }
 
     private void Clear() {

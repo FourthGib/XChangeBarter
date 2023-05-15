@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.xchangebarter.Item.Item;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Home2Activity extends AppCompatActivity {
+
+    private SearchView home_search;
 
     RecyclerView rv;
 
@@ -72,6 +75,20 @@ public class Home2Activity extends AppCompatActivity {
 
         GetItem();
 
+        //search
+        home_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return true;
+            }
+        });
+
         home.setOnClickListener(v -> {
             Toast.makeText(Home2Activity.this, "Home Click", Toast.LENGTH_SHORT).show();
             //Intent homeIntent = new Intent(Home2Activity.this, Home2Activity.class);
@@ -101,7 +118,26 @@ public class Home2Activity extends AppCompatActivity {
             startActivity(profileIntent);
             finish();
         });
+        setRVOnClickListener();
     }
+
+    private void searchList(String text) {
+        ArrayList<Item> foundSearch = new ArrayList<>();
+        for(Item item: itemArrayList){
+            if(item.getName().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getTags().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getDescription().toLowerCase().contains(text.toLowerCase())){
+                foundSearch.add(item);
+            }
+        }
+        if (foundSearch.isEmpty()){
+            Toast.makeText(Home2Activity.this, "No items found", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            ra.setFoundSearch(foundSearch);
+        }
+    }
+
     private void GetItem(){
 
         Query query = inv_item_ref.child("otherItemInfo");
@@ -128,7 +164,6 @@ public class Home2Activity extends AppCompatActivity {
 
                 ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
                 rv.setAdapter(ra);
-                setRVOnClickListener();
                 ra.notifyDataSetChanged();
             }
 
@@ -137,7 +172,7 @@ public class Home2Activity extends AppCompatActivity {
 
             }
         });
-
+        //setRVOnClickListener();
     }
 
     private void setRVOnClickListener() {
@@ -145,6 +180,8 @@ public class Home2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v, int pos) {
                 // this click will go to fresh trade activity with chosen item
+                Toast.makeText(Home2Activity.this, "Click success", Toast.LENGTH_SHORT).show();
+
                 Intent tradeIntent = new Intent(Home2Activity.this, TradeActivity.class);
                 //save trade details
                 String otherUser = itemArrayList.get(pos).getUser();
@@ -155,6 +192,7 @@ public class Home2Activity extends AppCompatActivity {
                 //set trade ID of item to associate it with new trade
                 //TODO: pull item with itemID and set the tradeID to the tradeID of newTrade
                 startActivity(tradeIntent);
+                finish();
 
             }
         };
@@ -173,6 +211,9 @@ public class Home2Activity extends AppCompatActivity {
     }
 
     private void init(){
+        //search
+        home_search = findViewById(R.id.home_search);
+        home_search.clearFocus();
 
         rv = findViewById(R.id.home_rv);
         home = findViewById(R.id.home_btn);

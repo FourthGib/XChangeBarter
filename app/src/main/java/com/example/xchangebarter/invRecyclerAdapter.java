@@ -25,6 +25,11 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
     private Context mContext;
     private ArrayList<Item> itemArrayList;
 
+    public void setFoundSearch(ArrayList<Item> foundSearch){
+        this.itemArrayList = foundSearch;
+        notifyDataSetChanged();
+    }
+
     private int item_count = 1;
 
     private RecyclerViewOnClickListener rvListener;

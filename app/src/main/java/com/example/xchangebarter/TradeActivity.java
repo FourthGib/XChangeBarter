@@ -39,10 +39,13 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private ArrayList<Item> itemArrayList;
 
 
+
     private Button back, send, accept, counter, reject;
     private ImageView trade_home, trade_tradeblock, trade_inventory, trade_profile, receive_item;
 
-    private TextView otherUser;
+    private TextView otherUser, received_item_name;
+
+    Item received_item;
 
     private Spinner placeSpin;
     private RecyclerView tt_rv;
@@ -207,6 +210,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             Intent homeIntent = new Intent(TradeActivity.this, Home2Activity.class);
             homeIntent.putExtra("user", user);
             startActivity(homeIntent);
+            finish();
         });
 
         trade_tradeblock.setOnClickListener(v -> {
@@ -232,7 +236,10 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             profileIntent.putExtra("user", user);
             finish();
         });
+        setRVOnClickListener();
     }
+
+    //geting info for received item
 
     private void GetItem(){
 
@@ -254,11 +261,20 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                     if (Objects.equals(item.getUser(), user)){
                         itemArrayList.add(item);
                     }
+/*
+                    //get info of the received item
+                    if (item.getID().contains(trade.getReceiveItem())){
+                        Toast.makeText(TradeActivity.this, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+                        received_item = item;
+                        received_item_name.setText(received_item.getName());
+                    }
+
+ */
                 }
 
                 ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
                 tt_rv.setAdapter(ra);
-                setRVOnClickListener();
+                //setRVOnClickListener();
                 ra.notifyDataSetChanged();
             }
 
@@ -300,12 +316,16 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
     private void init(){
         tt_rv = findViewById(R.id.trade_to_rv);
+
         trade_home = findViewById(R.id.trade_home_btn);
         trade_tradeblock = findViewById(R.id.trade_tradeblock_btn);
         trade_inventory = findViewById(R.id.trade_inventory_btn);
         trade_profile = findViewById(R.id.trade_profile_btn);
         otherUser = findViewById(R.id.textViewTradeFor);
         otherUser.append(trade.getOtherUser() + "@csusm.edu");
+
+        received_item_name = findViewById(R.id.received_item_name);
+        //received_item_name.setText(received_item.getName());
     }
 
     @Override
