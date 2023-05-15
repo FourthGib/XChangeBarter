@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.xchangebarter.Item.Item;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,16 +44,21 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private Button back, send, accept, counter, reject;
     private ImageView trade_home, trade_tradeblock, trade_inventory, trade_profile, receive_item;
 
-    private TextView otherUser, received_item_name;
+    private TextView otherUser;
+
+    //received item fields
+    private TextView received_item_name, received_item_description, received_item_tags;
+    private ImageView received_item_image;
+    private String received_item_imageUrl;
 
     Item received_item;
-
+    private DatabaseReference received_item_ref;
     private Spinner placeSpin;
     private RecyclerView tt_rv;
     private invRecyclerAdapter ra;
     private invRecyclerAdapter.RecyclerViewOnClickListener rvListener;
 
-    private String user, giveItemID, place;
+    private String user, giveItemID, place, received_item_path;
     private boolean isChosen;   //boolean to check if item has been selected to give in trade
     ArrayList<String> places;
 
@@ -138,6 +144,39 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         Clear();
 
         GetItem();
+
+        //received_item_path = "otherItemInfo/"+trade.getReceiveItem();
+        received_item_ref = inv_item_ref.child("otherItemInfo").child(trade.getReceiveItem());
+        received_item_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    // Item exists in the database, retrieve its information
+                    received_item = snapshot.getValue(Item.class);
+                    if (received_item != null) {
+                        received_item_name.setText(received_item.getTitle());
+                        received_item_description.setText(received_item.getDescription());
+                        received_item_tags.setText(received_item.getTags());
+                        received_item_imageUrl = received_item.getImage();
+                        Glide.with(getApplicationContext())
+                                .load(received_item_imageUrl)
+                                .into(received_item_image);
+
+
+                        Toast.makeText(TradeActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(TradeActivity.this, "Item is null", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(TradeActivity.this, "Item not found", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(TradeActivity.this, "Failed to get item", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
 
@@ -252,8 +291,8 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
-                    item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
-                    item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
+                    item.setImage(Objects.requireNonNull(snap.child("image").getValue()).toString());
+                    item.setTitle(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
@@ -291,7 +330,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onClick(View v, int pos) {
                 // this click signifies an item was chosen to give
-                giveItemID = itemArrayList.get(pos).getID();
+                giveItemID = itemArrayList.get(pos).getItemID();
                 trade.setGiveItem(giveItemID);
                 isChosen = true;
                 // set trade ID of item to associate it with this trade
@@ -325,7 +364,9 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         otherUser.append(trade.getOtherUser() + "@csusm.edu");
 
         received_item_name = findViewById(R.id.received_item_name);
-        //received_item_name.setText(received_item.getName());
+        received_item_description = findViewById(R.id.received_item_description);
+        received_item_tags = findViewById(R.id.received_item_tags);
+        received_item_image = findViewById(R.id.trade_for_rv);
     }
 
     @Override

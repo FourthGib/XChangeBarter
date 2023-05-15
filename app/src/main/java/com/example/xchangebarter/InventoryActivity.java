@@ -119,9 +119,9 @@ public class InventoryActivity extends AppCompatActivity {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
-                    item.setID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
-                    item.setImgUrl(Objects.requireNonNull(snap.child("image").getValue()).toString());
-                    item.setName(Objects.requireNonNull(snap.child("title").getValue()).toString());
+                    item.setItemID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
+                    item.setImage(Objects.requireNonNull(snap.child("image").getValue()).toString());
+                    item.setTitle(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());

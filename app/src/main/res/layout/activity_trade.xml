@@ -74,10 +74,13 @@
         <ImageView
             android:id="@+id/trade_for_rv"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_below="@+id/textViewTrade"
+            android:layout_height="200dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/received_item_name"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/item_chosen_to_trade_for"  />
+            android:contentDescription="@string/item_chosen_to_trade_for"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/received_item_description"

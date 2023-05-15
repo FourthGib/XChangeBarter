@@ -61,12 +61,12 @@ public class invRecyclerAdapter extends RecyclerView.Adapter<invRecyclerAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //if(itemArrayList.get(position).getName().equals("Itto")) {
-            holder.name_view.setText(itemArrayList.get(position).getName());
+            holder.name_view.setText(itemArrayList.get(position).getTitle());
             holder.descrip_view.setText(itemArrayList.get(position).getDescription());
             holder.tags_view.setText(itemArrayList.get(position).getTags());
 
             //Glide for images
-            Glide.with(mContext).load(itemArrayList.get(position).getImgUrl()).into(holder.img_view);
+            Glide.with(mContext).load(itemArrayList.get(position).getImage()).into(holder.img_view);
             item_count++;
       /*}
         else{

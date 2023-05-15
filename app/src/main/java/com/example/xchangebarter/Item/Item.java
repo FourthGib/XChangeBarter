@@ -1,33 +1,33 @@
 package com.example.xchangebarter.Item;
 
 public class Item {
-    String ID, name, description, tags, imgUrl, user, tradeID;
+    String itemID, title, description, tags, image, user, tradeID;
 
     public Item(){}
 
-    public Item(String ID, String imgUrl,String name,String description,String tags, String user){
-        this.ID = ID;
-        this.imgUrl = imgUrl;
-        this.name = name;
+    public Item(String itemID, String image,String title,String description,String tags, String user){
+        this.itemID = itemID;
+        this.image = image;
+        this.title = title;
         this.description = description;
         this.tags = tags;
         this.user = user;
     }
 
-    public String getID() {
-        return ID;
+    public String getItemID() {
+        return itemID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -46,12 +46,12 @@ public class Item {
         this.tags = tags;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getUser(){ return user; }
