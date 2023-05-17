@@ -49,4 +49,5 @@
     <string name="item_received_in_trade">Item Received in Trade</string>
     <string name="item_given_in_trade">Item Given in Trade</string>
     <string name="accept_trade">Accept</string>
+    <string name="trade_approval">Trade Approval</string>
 </resources>

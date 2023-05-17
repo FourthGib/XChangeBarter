@@ -176,25 +176,24 @@ public class Home2Activity extends AppCompatActivity {
     }
 
     private void setRVOnClickListener() {
-        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
-            @Override
-            public void onClick(View v, int pos) {
-                // this click will go to fresh trade activity with chosen item
-                Toast.makeText(Home2Activity.this, "Click success", Toast.LENGTH_SHORT).show();
+        rvListener = (v, pos) -> {
+            // this click will go to fresh trade activity with chosen item
+            Toast.makeText(Home2Activity.this, "Click success", Toast.LENGTH_SHORT).show();
 
-                Intent tradeIntent = new Intent(Home2Activity.this, TradeActivity.class);
-                //save trade details
-                String otherUser = itemArrayList.get(pos).getUser();
-                String itemID = itemArrayList.get(pos).getItemID();
-                newTrade = new Trade(itemID, user, otherUser, true, false);
-                tradeIntent.putExtra("user", user);
-                tradeIntent.putExtra("trade", newTrade);
-                //set trade ID of item to associate it with new trade
-                //TODO: pull item with itemID and set the tradeID to the tradeID of newTrade
-                startActivity(tradeIntent);
-                finish();
+            Intent tradeIntent = new Intent(Home2Activity.this, TradeActivity.class);
+            //save trade details
+            String otherUser = itemArrayList.get(pos).getUser();
+            Log.d("USER", "Home2onClick: get other user: " + otherUser);
+            String itemID = itemArrayList.get(pos).getItemID();
+            Log.d("ITEM_ID", "Home2onClick: get item id: " + itemID);
+            newTrade = new Trade(itemID, user, otherUser, true, false);
+            tradeIntent.putExtra("user", user);
+            tradeIntent.putExtra("trade", newTrade);
+            //set trade ID of item to associate it with new trade
+            //TODO: pull item with itemID and set the tradeID to the tradeID of newTrade
+            startActivity(tradeIntent);
+            finish();
 
-            }
         };
     }
 

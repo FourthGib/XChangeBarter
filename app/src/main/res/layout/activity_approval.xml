@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ApprovalActivity">
+
+
+    <TextView
+        android:id="@+id/textViewTradeApproval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-condensed"
+        android:includeFontPadding="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="6dp"
+        android:text="@string/trade_approval"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/received_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTradeApproval"
+        android:text="@string/item_name"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/trade_for_rv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/received_item_name"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/item_chosen_to_trade_for"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/received_item_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_description"
+        android:layout_below="@+id/trade_for_rv"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/received_item_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_tags"
+        android:layout_below="@+id/received_item_description"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+
+    <TextView
+        android:id="@+id/give_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTradeWith"
+        android:text="@string/item_name"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/trade_with_rv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/give_item"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/item_chosen_to_trade_for"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/give_item_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_description"
+        android:layout_below="@+id/trade_with_rv"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/give_item_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_tags"
+        android:layout_below="@+id/give_item_description"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/textViewTradeWith"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/received_item_tags"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/item_received_in_trade" />
+
+    <TextView
+        android:id="@+id/textViewTradeTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/give_item_tags"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/item_given_in_trade" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearBtnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="74dp"
+        android:layout_below="@id/textViewTradeTo">
+        <Button
+            android:id="@+id/acceptTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accept_trade" />
+
+        <Button
+            android:id="@+id/rejectTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reject_trade" />
+        <Button
+            android:id="@+id/counterTradeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/counter_offer" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/notif_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
+
+</RelativeLayout>
