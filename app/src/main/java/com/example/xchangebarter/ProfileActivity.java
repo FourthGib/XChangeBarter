@@ -48,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(ProfileActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
             Intent homeIntent = new Intent(ProfileActivity.this, Home2Activity.class);
             startActivity(homeIntent);
+            finish();
         });
 
         prof_trade.setOnClickListener(v -> {

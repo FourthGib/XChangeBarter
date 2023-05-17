@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.xchangebarter.Item.Item;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 import com.example.xchangebarter.Trade.Trade;
@@ -39,7 +42,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
     private ArrayList<Item> itemArrayList;
 
-
+    final DatabaseReference trade_ref = FirebaseDatabase.getInstance().getReference();
 
     private Button back, send, accept, counter, reject;
     private ImageView trade_home, trade_tradeblock, trade_inventory, trade_profile, receive_item;
@@ -145,7 +148,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         GetItem();
 
-        //received_item_path = "otherItemInfo/"+trade.getReceiveItem();
+        //get item info from a database
         received_item_ref = inv_item_ref.child("otherItemInfo").child(trade.getReceiveItem());
         received_item_ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -184,6 +187,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         // complete trade details and go to trade block to see that trade has been sent
         send.setOnClickListener(v -> {
             if (isChosen) {
+                /*
                 // invert current user and other user viewpoint since this will be received from other user
                 trade.setIncoming(true);
                 trade.setCurrentUser(trade.getOtherUser());
@@ -191,11 +195,21 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                 trade.setGiveItem(trade.getReceiveItem());
                 trade.setReceiveItem(giveItemID);
                 trade.setPlace(place);
-                Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
+                 */
+
+                //create pending trade in the database
+                createPendingTrade();
+
+                Toast.makeText(TradeActivity.this, "Send Clicked Yay!!", Toast.LENGTH_SHORT).show();
+                /*
                 Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
                 tbIntent.putExtra("user", user);
                 tbIntent.putExtra("trade", trade);
                 startActivity(tbIntent);
+
+                 */
+
+
             } else {
                 Toast.makeText(TradeActivity.this, "Must Choose Item to Give!", Toast.LENGTH_LONG).show();
             }
@@ -276,7 +290,58 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             finish();
         });
         setRVOnClickListener();
+
+        //just example for updating value in database
+        trade_ref.child("trades").child("15052023142518null").child("status").setValue("active");//trade table -> tradeID -> status for that tradeId
     }
+
+    ///Trade to database
+    ///
+    ///
+    ///
+    ////
+    ///
+    ///
+    //
+    private void createPendingTrade() {
+        String received_item_id = trade.getReceiveItem();
+        String give_item_id = trade.getGiveItem();
+        String trade_ID = received_item_id + give_item_id; //combo of item IDs
+        String trade_initiator = trade.getCurrentUser();
+        String trade_receiver = trade.getOtherUser();
+        String trade_status = "pending"; //pending is the default, change to one of the following according to trade state: active, offer, cancelled, complete.
+        String receiver_completion_status = "ongoing"; //can be ongoing or complete (ongoing by default)
+        String initiator_completion_status = "ongoing";//if both receiver and initiator are complete, trade_status can be set to complete
+
+        //reference to database for trade
+        //final DatabaseReference trade_ref = FirebaseDatabase.getInstance().getReference();
+
+
+            //organize data in hash
+            HashMap<String, Object> tradeInfo = new HashMap<>();
+            tradeInfo.put("tradeID", trade_ID); //unique tradeID
+            tradeInfo.put("receive_item", received_item_id); //item given by receiver
+            tradeInfo.put("give_item", give_item_id);   //item given by initiator
+            tradeInfo.put("receiver", trade_receiver);  //person who receives trade
+            tradeInfo.put("initiator", trade_initiator); //person who initiates trade
+            tradeInfo.put("status", trade_status); //current status of the trade: pending, active, offer, cancelled, or complete
+            tradeInfo.put("rCompletion", receiver_completion_status); //receiver completion
+            tradeInfo.put("iCompletion", initiator_completion_status); //initiator completion
+            //send data to data base
+            trade_ref.child("trades").child(trade_ID).updateChildren(tradeInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(TradeActivity.this, "Trade offer was sent", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(TradeActivity.this, "Error: Trade wasn't saved in the database", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+    }
+
 
     //geting info for received item
 
