@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -75,7 +76,10 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
+            Log.d("USER", "Trade onCreate: " + user);
             trade = extras.getParcelable("trade");
+            Log.d("O_USER", "Trade onCreate: " + trade.getOtherUser());
+            Log.d("O_ITEM", "Trade onCreate: " + trade.getReceiveItem());
         }
         isChosen = false;
         placeSpin = (Spinner) findViewById(R.id.place_spinner);
@@ -98,9 +102,6 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         placeSpin.setOnItemSelectedListener(this);
 
-        // TODO: Change receive_item imageview to a single_item_layout for the item from database
-        //  associated with ID ReceiveItem in trade
-
         back = (Button) findViewById(R.id.notif_back);
         send = (Button) findViewById(R.id.sendTradeBtn);
         accept = (Button) findViewById(R.id.acceptTradeBtn);
@@ -108,9 +109,8 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         counter = (Button) findViewById(R.id.counterTradeBtn);
 
 
-        // TODO: based on trade status (fresh, incoming) make correct buttons enabled
         if (trade.isFresh()){   // new trade created by this user
-            send.setEnabled(true);
+            send.setEnabled(false);     //enable once item is chosen
             accept.setEnabled(false);
             reject.setEnabled(false);
             counter.setEnabled(false);
@@ -292,7 +292,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         setRVOnClickListener();
 
         //just example for updating value in database
-        trade_ref.child("trades").child("15052023142518null").child("status").setValue("active");//trade table -> tradeID -> status for that tradeId
+        //trade_ref.child("trades").child("15052023142518null").child("status").setValue("active");//trade table -> tradeID -> status for that tradeId
     }
 
     ///Trade to database
@@ -356,6 +356,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Item item = new Item();
+                    item.setItemID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
                     item.setImage(Objects.requireNonNull(snap.child("image").getValue()).toString());
                     item.setTitle(Objects.requireNonNull(snap.child("title").getValue()).toString());
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
@@ -391,18 +392,17 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void setRVOnClickListener() {
-        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
-            @Override
-            public void onClick(View v, int pos) {
-                // this click signifies an item was chosen to give
-                giveItemID = itemArrayList.get(pos).getItemID();
-                trade.setGiveItem(giveItemID);
-                isChosen = true;
-                // set trade ID of item to associate it with this trade
-                //TODO: get item from database with the itemID of giveItemID and set the tradeID to
-                // the tradeID of trade
-                Toast.makeText(TradeActivity.this, "Item Selected!", Toast.LENGTH_LONG).show();
-            }
+        rvListener = (v, pos) -> {
+            // this click signifies an item was chosen to give
+            giveItemID = itemArrayList.get(pos).getItemID();
+            Log.d("ITEM_ID", "Trade:setRVOnClickListener: getGiveItemID: " + giveItemID);
+            trade.setGiveItem(giveItemID);
+            isChosen = true;
+            send.setEnabled(true);
+            // set trade ID of item to associate it with this trade
+            //TODO: get item from database with the itemID of giveItemID and set the tradeID to
+            // the tradeID of trade
+            Toast.makeText(TradeActivity.this, "Item Selected!", Toast.LENGTH_LONG).show();
         };
     }
 
@@ -426,7 +426,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         trade_inventory = findViewById(R.id.trade_inventory_btn);
         trade_profile = findViewById(R.id.trade_profile_btn);
         otherUser = findViewById(R.id.textViewTradeFor);
-        otherUser.append(trade.getOtherUser() + "@csusm.edu");
+        otherUser.append(" from " + trade.getOtherUser() + "@csusm.edu");
 
         received_item_name = findViewById(R.id.received_item_name);
         received_item_description = findViewById(R.id.received_item_description);

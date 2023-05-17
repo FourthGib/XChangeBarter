@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewTrade"
+        android:id="@+id/textViewTradeApproval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -65,7 +65,7 @@
             android:id="@+id/received_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTrade"
+            android:layout_below="@+id/textViewTradeApproval"
             android:text="@string/item_name"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -74,7 +74,7 @@
         <ImageView
             android:id="@+id/trade_for_rv"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="193dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_below="@+id/received_item_name"
@@ -115,7 +115,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trade_to_rv"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="193dp"
         android:layout_below="@id/textViewTradeFor"
         android:layout_centerHorizontal="true" />
 
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="28dp"
-        android:layout_below="@id/textViewTradeTo">
+        android:layout_below="@+id/place_spinner">
         <Button
             android:id="@+id/sendTradeBtn"
             android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
         android:id="@+id/place_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearBtnLayout"
+        android:layout_below="@+id/textViewTradeTo"
         android:minHeight="48dp" />
 
 
