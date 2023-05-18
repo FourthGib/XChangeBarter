@@ -2,6 +2,7 @@ package com.example.xchangebarter.Item;
 
 public class Item {
     String itemID, title, description, tags, image, user, tradeID;
+    boolean available;
 
     public Item(){}
 
@@ -12,6 +13,15 @@ public class Item {
         this.description = description;
         this.tags = tags;
         this.user = user;
+        available = true;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getItemID() {

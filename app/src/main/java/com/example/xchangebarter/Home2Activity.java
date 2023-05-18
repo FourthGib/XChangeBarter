@@ -186,7 +186,8 @@ public class Home2Activity extends AppCompatActivity {
             Log.d("USER", "Home2onClick: get other user: " + otherUser);
             String itemID = itemArrayList.get(pos).getItemID();
             Log.d("ITEM_ID", "Home2onClick: get item id: " + itemID);
-            newTrade = new Trade(itemID, user, otherUser, true, false);
+            String itemTitle = itemArrayList.get(pos).getTitle();
+            newTrade = new Trade(itemID, itemTitle, user, otherUser, true, false);
             tradeIntent.putExtra("user", user);
             tradeIntent.putExtra("trade", newTrade);
             //set trade ID of item to associate it with new trade

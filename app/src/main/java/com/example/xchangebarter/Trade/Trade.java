@@ -11,68 +11,123 @@ import java.util.Calendar;
 public class Trade implements Parcelable{
 
     String tradeID;       // Unique ID of trade
-    String receiveItem;   // ID of Item current user will receive in trade
-    String giveItem;      // ID of Item current user will choose to give to other user.
-    String currentUser;
-    String otherUser;
-
+    String receiverItem;   // ID of Item initiator user will receive in trade
+    String receiverItemTitle;   // Name of item being received
+    String initiatorItem;      // ID of Item intitiator user will choose to give.
+    String initiatorItemTitle;  // Name of item being sent
+    String initiator;       // User email without @csusm of initiating user
+    String receiver;        // User email without @csusm of receiving user
     String place;       // Landmark for CSUSM to complete trade
-
+    String status;      // Display message so user knows what is happening with trade
+    String iCompletion;   // Set to help complete a trade. Initiator has accepted.
+    String rCompletion;   // Set to help complete a trade. Receiver has accepted
     boolean fresh;   // Trade was just created by current user
     boolean incoming;   // Trade was sent to the current user by another user
-
-    boolean accepted;   // Set to help send trade to completed trades
     boolean rejected;   // Set to help erase trade from trade block
     boolean countered;  // not sure if we need this yet, here just in case
 
     // Constructor leaving out item to be traded to other user, since it is unknown at start of trade
-    public Trade(String received, String currentUser, String otherUser, boolean fresh, boolean incoming){
-        setTradeID();
-        receiveItem = received;
-        this.currentUser = currentUser;
-        this.otherUser = otherUser;
+    public Trade(String receiverItem, String receiverItemTitle, String initiator, String receiver, boolean fresh, boolean incoming){
+        this.receiverItem = receiverItem;
+        this.receiverItemTitle = receiverItemTitle;
+        this.initiator = initiator;
+        this.receiver = receiver;
+        place = "";
+        status = "";
+        iCompletion = "ongoing";
+        rCompletion = "ongoing";
         this.fresh = fresh;
         this.incoming = incoming;
+        rejected = false;
+        countered = false;
+    }
+
+    // Default Constructor to set each field when retrieving from database
+    public Trade(){
+        tradeID = "";
+        receiverItem = "";
+        receiverItemTitle = "";
+        initiatorItem = "";
+        initiatorItemTitle = "";
+        initiator = "";
+        receiver = "";
+        place = "";
+        status = "";
+        iCompletion = "ongoing";
+        rCompletion = "ongoing";
+        fresh = false;
+        incoming = false;
+        rejected = false;
+        countered = false;
     }
 
     // Constructor for using with Parcel
     public Trade(Parcel in){
         tradeID = in.readString();
-        receiveItem = in.readString();
-        currentUser = in.readString();
-        otherUser = in.readString();
+        receiverItem = in.readString();
+        receiverItemTitle = in.readString();
+        initiatorItem = in.readString();
+        initiatorItemTitle = in.readString();
+        initiator = in.readString();
+        receiver = in.readString();
+        place = in.readString();
+        status = in.readString();
+        iCompletion = in.readString();
+        rCompletion = in.readString();
         fresh = in.readInt() == 1;
         incoming = in.readInt() == 1;
-        accepted = in.readInt() == 1;
         rejected = in.readInt() == 1;
         countered = in.readInt() == 1;
     }
 
+    public String getReceiverItemTitle() {
+        return receiverItemTitle;
+    }
+
+    public void setReceiverItemTitle(String receiverItemTitle) {
+        this.receiverItemTitle = receiverItemTitle;
+    }
+
+    public String getInitiatorItemTitle() {
+        return initiatorItemTitle;
+    }
+
+    public void setInitiatorItemTitle(String initiatorItemTitle) {
+        this.initiatorItemTitle = initiatorItemTitle;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTradeID(String tradeID){
+        this.tradeID = tradeID;
+    }
+    public void setTradeID() {
+        tradeID = receiverItem + initiatorItem;
+    }
     public String getTradeID() {
         return tradeID;
     }
 
-    public void setTradeID() {
-        Calendar calendar = Calendar.getInstance();
-
-        //check date
-        SimpleDateFormat currDate = new SimpleDateFormat("ddMMyyyy");
-        String currentDate = currDate.format(calendar.getTime());
-
-        //check time
-        SimpleDateFormat currTime = new SimpleDateFormat("HHmmss");
-        String currentTime = currTime.format(calendar.getTime());
-
-        //primary key from date + time
-        tradeID = currentDate + currentTime;
+    public String getiCompletion() {
+        return iCompletion;
     }
 
-    public boolean isAccepted() {
-        return accepted;
+    public void setiCompletion(String iCompletion) {
+        this.iCompletion = iCompletion;
     }
 
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
+    public String getrCompletion() {
+        return rCompletion;
+    }
+
+    public void setrCompletion(String rCompletion) {
+        this.rCompletion = rCompletion;
     }
 
     public boolean isRejected() {
@@ -99,36 +154,36 @@ public class Trade implements Parcelable{
         this.place = place;
     }
 
-    public String getReceiveItem() {
-        return receiveItem;
+    public String getReceiverItem() {
+        return receiverItem;
     }
 
-    public void setReceiveItem(String receiveItem) {
-        this.receiveItem = receiveItem;
+    public void setReceiverItem(String receiverItem) {
+        this.receiverItem = receiverItem;
     }
 
-    public String getGiveItem() {
-        return giveItem;
+    public String getInitiatorItem() {
+        return initiatorItem;
     }
 
-    public void setGiveItem(String giveItem) {
-        this.giveItem = giveItem;
+    public void setInitiatorItem(String initiatorItem) {
+        this.initiatorItem = initiatorItem;
     }
 
-    public String getCurrentUser() {
-        return currentUser;
+    public String getInitiator() {
+        return initiator;
     }
 
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
+    public void setInitiator(String initiator) {
+        this.initiator = initiator;
     }
 
-    public String getOtherUser() {
-        return otherUser;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setOtherUser(String otherUser) {
-        this.otherUser = otherUser;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public boolean isFresh() {
@@ -154,13 +209,19 @@ public class Trade implements Parcelable{
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(tradeID);
-        parcel.writeString(receiveItem);
-        parcel.writeString(currentUser);
-        parcel.writeString(otherUser);
+        parcel.writeString(getTradeID());
+        parcel.writeString(receiverItem);
+        parcel.writeString(receiverItemTitle);
+        parcel.writeString(initiatorItem);
+        parcel.writeString(initiatorItemTitle);
+        parcel.writeString(initiator);
+        parcel.writeString(receiver);
+        parcel.writeString(place);
+        parcel.writeString(status);
+        parcel.writeString(iCompletion);
+        parcel.writeString(rCompletion);
         parcel.writeInt(isFresh()? 1 : 0);
         parcel.writeInt(isIncoming()? 1 : 0);
-        parcel.writeInt(isAccepted()? 1 : 0);
         parcel.writeInt(isRejected()? 1 : 0);
         parcel.writeInt(isCountered()? 1 : 0);
     }

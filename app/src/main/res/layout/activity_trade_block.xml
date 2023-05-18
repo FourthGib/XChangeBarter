@@ -62,37 +62,37 @@
         android:textSize="24sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/active_rv"
+        android:id="@+id/ongoing_rv"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:layout_below="@id/textViewTradeBlock"
         android:layout_centerHorizontal="true" />
     <TextView
-        android:id="@+id/textViewActiveTrades"
+        android:id="@+id/textViewOngoingTrades"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/active_rv"
+        android:layout_below="@id/ongoing_rv"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:text="@string/active_trades" />
+        android:text="@string/ongoing_trades" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pending_rv"
+        android:id="@+id/finished_rv"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:layout_below="@id/textViewActiveTrades"
+        android:layout_below="@id/textViewOngoingTrades"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textViewPendingTrades"
+        android:id="@+id/textViewFinishedTrades"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pending_rv"
+        android:layout_below="@id/finished_rv"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:text="@string/pending_trades" />
+        android:text="@string/finished_trades" />
 
 
 

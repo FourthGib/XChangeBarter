@@ -63,7 +63,7 @@
 
 
     <TextView
-        android:id="@+id/give_item"
+        android:id="@+id/give_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewTradeWith"
@@ -73,12 +73,12 @@
         />
 
     <ImageView
-        android:id="@+id/trade_with_rv"
+        android:id="@+id/trade_with_iv"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@+id/give_item"
+        android:layout_below="@+id/give_item_name"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/item_chosen_to_trade_for"
         android:scaleType="centerCrop"/>
@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/item_description"
-        android:layout_below="@+id/trade_with_rv"
+        android:layout_below="@+id/trade_with_iv"
         android:textAlignment="center"
         android:textSize="20sp"
         />
