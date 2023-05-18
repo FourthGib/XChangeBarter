@@ -175,7 +175,7 @@ public class InventoryActivity extends AppCompatActivity {
         inv_home = findViewById(R.id.inv_home_btn);
         inv_trade = findViewById(R.id.tb_tradeblock_btn);
         inv_inventory = findViewById(R.id.inv_inventory_btn);
-        inv_profile = findViewById(R.id.prof_inventory_btn);
+        inv_profile = findViewById(R.id.prof_logout_btn);
         inv_add = findViewById(R.id.inv_add_btn);
     }
 }

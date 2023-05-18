@@ -207,6 +207,6 @@ public class TradeBlockActivity extends AppCompatActivity {
         tb_home = findViewById(R.id.tb_home_btn);
         tb_tradeblock = findViewById(R.id.tb_tradeblock_btn);
         tb_inventory = findViewById(R.id.tb_inventory_btn);
-        tb_profile = findViewById(R.id.tb_profile_btn);
+        tb_profile = findViewById(R.id.prof_logout_btn);
     }
 }

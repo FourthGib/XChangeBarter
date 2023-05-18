@@ -346,9 +346,6 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             trade.setPlace(place);
             isChosen = true;
             send.setEnabled(true);
-            // set trade ID of item to associate it with this trade
-            //TODO: get item from database with the itemID of giveItemID and set the tradeID to
-            // the tradeID of trade
             Toast.makeText(TradeActivity.this, "Item Selected!", Toast.LENGTH_LONG).show();
         };
     }
@@ -371,7 +368,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         trade_home = findViewById(R.id.trade_home_btn);
         trade_tradeblock = findViewById(R.id.trade_tradeblock_btn);
         trade_inventory = findViewById(R.id.trade_inventory_btn);
-        trade_profile = findViewById(R.id.trade_profile_btn);
+        trade_profile = findViewById(R.id.prof_logout_btn);
         otherUser = findViewById(R.id.textViewTradeFor);
         otherUser.append(" from " + trade.getReceiver() + "@csusm.edu");
 
