@@ -129,35 +129,15 @@
         android:layout_centerHorizontal="true"
         android:text="@string/item_given_in_trade" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearBtnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="28dp"
-        android:layout_below="@+id/place_spinner">
-        <Button
-            android:id="@+id/sendTradeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_trade" />
-        <Button
-            android:id="@+id/acceptTradeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/accept_trade" />
 
-        <Button
-            android:id="@+id/rejectTradeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reject_trade" />
-        <Button
-            android:id="@+id/counterTradeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/counter_offer" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <Button
+        android:id="@+id/sendTradeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/place_spinner"
+        android:layout_centerHorizontal="true"
+        android:text="@string/send_trade" />
+
 
     <Button
         android:id="@+id/notif_back"

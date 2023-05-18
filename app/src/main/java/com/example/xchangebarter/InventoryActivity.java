@@ -106,6 +106,14 @@ public class InventoryActivity extends AppCompatActivity {
             startActivity(profileIntent);
             finish();
         });
+        setRVOnClickListener();
+    }
+
+    private void setRVOnClickListener() {
+        rvListener = (v, pos) ->{
+            // possible to add remove function in future
+
+        };
     }
 
     private void GetItem(){

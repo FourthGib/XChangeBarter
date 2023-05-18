@@ -62,7 +62,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private invRecyclerAdapter ra;
     private invRecyclerAdapter.RecyclerViewOnClickListener rvListener;
 
-    private String user, giveItemID, place, received_item_path;
+    private String user, giveItemID, giveItemTitle, place, received_item_path;
     private boolean isChosen;   //boolean to check if item has been selected to give in trade
     ArrayList<String> places;
 
@@ -78,8 +78,8 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             user = extras.getString("user");
             Log.d("USER", "Trade onCreate: " + user);
             trade = extras.getParcelable("trade");
-            Log.d("O_USER", "Trade onCreate: " + trade.getOtherUser());
-            Log.d("O_ITEM", "Trade onCreate: " + trade.getReceiveItem());
+            Log.d("O_USER", "Trade onCreate: " + trade.getReceiver());
+            Log.d("O_ITEM", "Trade onCreate: " + trade.getReceiverItem());
         }
         isChosen = false;
         placeSpin = (Spinner) findViewById(R.id.place_spinner);
@@ -94,6 +94,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         places.add("Science Building 1");
         places.add("Science Building 2");
         places.add("Viasat Engineering Pavilion");
+        place = places.get(0);  // default to first option
 
         ArrayAdapter<String> spin_adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, places);
@@ -104,22 +105,10 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         back = (Button) findViewById(R.id.notif_back);
         send = (Button) findViewById(R.id.sendTradeBtn);
-        accept = (Button) findViewById(R.id.acceptTradeBtn);
-        reject = (Button) findViewById(R.id.rejectTradeBtn);
-        counter = (Button) findViewById(R.id.counterTradeBtn);
 
 
-        if (trade.isFresh()){   // new trade created by this user
-            send.setEnabled(false);     //enable once item is chosen
-            accept.setEnabled(false);
-            reject.setEnabled(false);
-            counter.setEnabled(false);
-        } else {    // trade is incoming
-            send.setEnabled(false);
-            accept.setEnabled(true);
-            reject.setEnabled(true);
-            counter.setEnabled(true);
-        }
+
+        send.setEnabled(false); // enable once item is chosen to give
 
 
 
@@ -149,7 +138,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         GetItem();
 
         //get item info from a database
-        received_item_ref = inv_item_ref.child("otherItemInfo").child(trade.getReceiveItem());
+        received_item_ref = inv_item_ref.child("otherItemInfo").child(trade.getReceiverItem());
         received_item_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -183,79 +172,21 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
 
-        // TODO: set on click listeners for the send, reject, accept, and counter buttons
         // complete trade details and go to trade block to see that trade has been sent
         send.setOnClickListener(v -> {
             if (isChosen) {
-                /*
-                // invert current user and other user viewpoint since this will be received from other user
-                trade.setIncoming(true);
-                trade.setCurrentUser(trade.getOtherUser());
-                trade.setOtherUser(user);
-                trade.setGiveItem(trade.getReceiveItem());
-                trade.setReceiveItem(giveItemID);
-                trade.setPlace(place);
-                 */
-
                 //create pending trade in the database
                 createPendingTrade();
-
-                Toast.makeText(TradeActivity.this, "Send Clicked Yay!!", Toast.LENGTH_SHORT).show();
-                /*
+                Toast.makeText(TradeActivity.this, "Send Clicked", Toast.LENGTH_SHORT).show();
                 Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
                 tbIntent.putExtra("user", user);
-                tbIntent.putExtra("trade", trade);
                 startActivity(tbIntent);
-
-                 */
-
-
+                finish();
             } else {
                 Toast.makeText(TradeActivity.this, "Must Choose Item to Give!", Toast.LENGTH_LONG).show();
             }
         });
 
-        // trade is complete add to user's completed trades
-        accept.setOnClickListener(v -> {
-            trade.setAccepted(true);
-            trade.setPlace(place);
-            Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
-            Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
-            tbIntent.putExtra("user", user);
-            tbIntent.putExtra("trade", trade);
-            startActivity(tbIntent);
-        });
-
-        // trade is rejected remove from trade block
-        reject.setOnClickListener(v -> {
-            trade.setRejected(true);
-            Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
-            Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
-            tbIntent.putExtra("user", user);
-            tbIntent.putExtra("trade", trade);
-            startActivity(tbIntent);
-        });
-
-        // send counter trade
-        counter.setOnClickListener(v -> {
-            if (isChosen) {
-                // invert current user and other user viewpoint since this will be received from other user
-                trade.setIncoming(true);
-                trade.setCurrentUser(trade.getOtherUser());
-                trade.setOtherUser(user);
-                trade.setGiveItem(trade.getReceiveItem());
-                trade.setReceiveItem(giveItemID);
-                trade.setPlace(place);
-                trade.setCountered(true);
-                Toast.makeText(TradeActivity.this, "Send Click", Toast.LENGTH_SHORT).show();
-                Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
-                tbIntent.putExtra("user", user);
-                tbIntent.putExtra("trade", trade);
-                startActivity(tbIntent);
-            } else {
-                Toast.makeText(TradeActivity.this, "Must Choose Item to Give!", Toast.LENGTH_LONG).show();
-            }
-        });
 
 
         trade_home.setOnClickListener(v -> {
@@ -304,26 +235,34 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     ///
     //
     private void createPendingTrade() {
-        String received_item_id = trade.getReceiveItem();
-        String give_item_id = trade.getGiveItem();
-        String trade_ID = received_item_id + give_item_id; //combo of item IDs
-        String trade_initiator = trade.getCurrentUser();
-        String trade_receiver = trade.getOtherUser();
-        String trade_status = "pending"; //pending is the default, change to one of the following according to trade state: active, offer, cancelled, complete.
+        String received_item_id = trade.getReceiverItem();
+        String received_item_title = trade.getReceiverItemTitle();
+        String initiator_item_id = trade.getInitiatorItem();
+        String initiator_item_title = trade.getInitiatorItemTitle();
+        String trade_ID = trade.getTradeID();
+        String trade_initiator = trade.getInitiator();
+        String trade_receiver = trade.getReceiver();
+        String trade_place = trade.getPlace();
+        String trade_status;
+        if (trade.isCountered()){
+            trade_status = trade.getStatus();
+        }else{
+            trade_status = "Pending: Sent to " + trade_receiver; //pending is the default, change to one of the following according to trade state: active, offer, cancelled, complete.
+        }
         String receiver_completion_status = "ongoing"; //can be ongoing or complete (ongoing by default)
         String initiator_completion_status = "ongoing";//if both receiver and initiator are complete, trade_status can be set to complete
-
-        //reference to database for trade
-        //final DatabaseReference trade_ref = FirebaseDatabase.getInstance().getReference();
 
 
             //organize data in hash
             HashMap<String, Object> tradeInfo = new HashMap<>();
             tradeInfo.put("tradeID", trade_ID); //unique tradeID
-            tradeInfo.put("receive_item", received_item_id); //item given by receiver
-            tradeInfo.put("give_item", give_item_id);   //item given by initiator
+            tradeInfo.put("receive_item_ID", received_item_id); //item given by receiver
+            tradeInfo.put("receive_item_title", received_item_title);   //name of item
+            tradeInfo.put("initiator_item_ID", initiator_item_id);   //item given by initiator
+            tradeInfo.put("initiator_item_title", initiator_item_title);   //name of item
             tradeInfo.put("receiver", trade_receiver);  //person who receives trade
             tradeInfo.put("initiator", trade_initiator); //person who initiates trade
+            tradeInfo.put("place", trade_place);    //place where users will trade
             tradeInfo.put("status", trade_status); //current status of the trade: pending, active, offer, cancelled, or complete
             tradeInfo.put("rCompletion", receiver_completion_status); //receiver completion
             tradeInfo.put("iCompletion", initiator_completion_status); //initiator completion
@@ -395,8 +334,12 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         rvListener = (v, pos) -> {
             // this click signifies an item was chosen to give
             giveItemID = itemArrayList.get(pos).getItemID();
+            giveItemTitle = itemArrayList.get(pos).getTitle();
             Log.d("ITEM_ID", "Trade:setRVOnClickListener: getGiveItemID: " + giveItemID);
-            trade.setGiveItem(giveItemID);
+            trade.setInitiatorItem(giveItemID);
+            trade.setInitiatorItemTitle(giveItemTitle);
+            trade.setTradeID(); //give item + receive item
+            trade.setPlace(place);
             isChosen = true;
             send.setEnabled(true);
             // set trade ID of item to associate it with this trade
@@ -426,7 +369,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         trade_inventory = findViewById(R.id.trade_inventory_btn);
         trade_profile = findViewById(R.id.trade_profile_btn);
         otherUser = findViewById(R.id.textViewTradeFor);
-        otherUser.append(" from " + trade.getOtherUser() + "@csusm.edu");
+        otherUser.append(" from " + trade.getReceiver() + "@csusm.edu");
 
         received_item_name = findViewById(R.id.received_item_name);
         received_item_description = findViewById(R.id.received_item_description);
@@ -441,5 +384,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        place = places.get(0); // default to first option
+    }
 }

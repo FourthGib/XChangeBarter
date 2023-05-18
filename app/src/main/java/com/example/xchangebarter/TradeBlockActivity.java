@@ -2,9 +2,7 @@ package com.example.xchangebarter;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,26 +19,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class TradeBlockActivity extends AppCompatActivity {
 
-    private DatabaseReference inv_item_ref;
-    private StorageReference inv_img_ref;
-    private ArrayList<Item> itemArrayList;
+    private DatabaseReference trade_item_ref;
+
     private ImageView tb_home, tb_tradeblock, tb_inventory, tb_profile;
 
-    private RecyclerView active_rv;
-    private RecyclerView pending_rv;
-    private invRecyclerAdapter ra;
-    private invRecyclerAdapter.RecyclerViewOnClickListener rvListener;
+    RecyclerView ongoing_rv;
+    private ArrayList<Trade> ongoingArrayList;
+    RecyclerView finished_rv;
+    private ArrayList<Trade> finishedArrayList;
+    private tradeRecyclerAdapter ra;    // for ongoing
+    private tradeRecyclerAdapter fra;   // for finished
+    private tradeRecyclerAdapter.RecyclerViewOnClickListener ongoingRVListener;
+    private tradeRecyclerAdapter.RecyclerViewOnClickListener finishedRVListener;
     
     private String user;
-    private Trade trade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,30 +48,25 @@ public class TradeBlockActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user = extras.getString("user");
-            trade = extras.getParcelable("trade");
         }
 
         init();
 
         LinearLayoutManager activeLLM = new LinearLayoutManager(this);
-        active_rv.setLayoutManager(activeLLM);
-        active_rv.setHasFixedSize(true);
+        ongoing_rv.setLayoutManager(activeLLM);
+        ongoing_rv.setHasFixedSize(true);
 
         LinearLayoutManager pendingLLM = new LinearLayoutManager(this);
-        pending_rv.setLayoutManager(pendingLLM);
-        pending_rv.setHasFixedSize(true);
+        finished_rv.setLayoutManager(pendingLLM);
+        finished_rv.setHasFixedSize(true);
 
-        inv_item_ref = FirebaseDatabase.getInstance().getReference();
-        inv_img_ref = FirebaseStorage.getInstance().getReference();
+        trade_item_ref = FirebaseDatabase.getInstance().getReference();
 
-        itemArrayList = new ArrayList<>();
+        ongoingArrayList = new ArrayList<>();
 
         Clear();
 
-        ActiveGetItem(active_rv);
-        PendingGetItem(pending_rv);
-
-
+        GetTrade(ongoing_rv, finished_rv);
 
         tb_home.setOnClickListener(v -> {
             Toast.makeText(TradeBlockActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
@@ -104,45 +97,69 @@ public class TradeBlockActivity extends AppCompatActivity {
             profileIntent.putExtra("user", user);
             finish();
         });
-        //setActiveRVOnClickListener();
+        setOngoingRVOnClickListener();
+        setFinishedOnClickListener();
     }
 
+
     private void Clear() {
-        if(itemArrayList != null){
-            itemArrayList.clear();
+        if(ongoingArrayList != null){
+            ongoingArrayList.clear();
             if(ra!=null){
                 ra.notifyDataSetChanged();
             }
         }
         else{
-            itemArrayList = new ArrayList<>();
+            ongoingArrayList = new ArrayList<>();
+        }
+        if(finishedArrayList != null){
+            finishedArrayList.clear();
+            if(fra!=null){
+                fra.notifyDataSetChanged();
+            }
+        }
+        else{
+            finishedArrayList = new ArrayList<>();
         }
     }
 
-    private void ActiveGetItem(RecyclerView rv){
+    private void GetTrade(RecyclerView orv, RecyclerView frv){
 
-        Query query = inv_item_ref.child("otherItemInfo");
+        Query query = trade_item_ref.child("trades");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
-                    Item item = new Item();
-                    item.setItemID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
-                    item.setImage(Objects.requireNonNull(snap.child("image").getValue()).toString());
-                    item.setTitle(Objects.requireNonNull(snap.child("title").getValue()).toString());
-                    item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
-                    item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
-                    item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
-                    item.setTradeID(Objects.requireNonNull(snap.child("tradeID").getValue()).toString());
-                    // TODO:only add items to list that user has been sent for trade
+                    Trade trade = new Trade();
+
+                    trade.setTradeID(Objects.requireNonNull(snap.child("tradeID").getValue()).toString());
+                    trade.setReceiverItem(Objects.requireNonNull(snap.child("receive_item_ID").getValue()).toString());
+                    trade.setReceiverItemTitle(Objects.requireNonNull(snap.child("receive_item_title").getValue()).toString());
+                    trade.setInitiatorItem(Objects.requireNonNull(snap.child("initiator_item_ID").getValue()).toString());
+                    trade.setInitiatorItemTitle(Objects.requireNonNull(snap.child("initiator_item_title").getValue()).toString());
+                    trade.setReceiver(Objects.requireNonNull(snap.child("receiver").getValue()).toString());
+                    trade.setInitiator(Objects.requireNonNull(snap.child("initiator").getValue()).toString());
+                    trade.setStatus(Objects.requireNonNull(snap.child("status").getValue()).toString());
+                    trade.setPlace(Objects.requireNonNull(snap.child("place").getValue()).toString());
+                    trade.setrCompletion(Objects.requireNonNull(snap.child("rCompletion").getValue()).toString());
+                    trade.setiCompletion(Objects.requireNonNull(snap.child("iCompletion").getValue()).toString());
+                    if (trade.getiCompletion().equalsIgnoreCase("ongoing") ||
+                            trade.getrCompletion().equalsIgnoreCase("ongoing")) {
+                        ongoingArrayList.add(trade);
+                    } else {
+                        finishedArrayList.add(trade);
+                    }
 
                 }
 
-                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
-                rv.setAdapter(ra);
-                setActiveRVOnClickListener();
+                ra = new tradeRecyclerAdapter(getApplicationContext(), ongoingArrayList, ongoingRVListener);
+                orv.setAdapter(ra);
+                fra = new tradeRecyclerAdapter(getApplicationContext(), finishedArrayList, finishedRVListener);
+                frv.setAdapter(fra);
+
                 ra.notifyDataSetChanged();
+                fra.notifyDataSetChanged();
             }
 
             @Override
@@ -153,79 +170,33 @@ public class TradeBlockActivity extends AppCompatActivity {
 
     }
 
-    private void setActiveRVOnClickListener() {
-        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
-            @Override
-            public void onClick(View v, int pos) {
-                // this click will go to trade activity associated with chosen item
-                Intent tradeIntent = new Intent(TradeBlockActivity.this, TradeActivity.class);
-                //save trade details
-                String otherUser = itemArrayList.get(pos).getUser();
-                String itemID = itemArrayList.get(pos).getItemID();
-                trade = new Trade(itemID, user, otherUser, true, false);
-                tradeIntent.putExtra("user", user);
-                tradeIntent.putExtra("trade", trade);
-                startActivity(tradeIntent);
+    private void setOngoingRVOnClickListener() {
+        ongoingRVListener = (v, pos) -> {
+            // this click will go to trade activity associated with chosen item
+            Intent approvalIntent = new Intent(TradeBlockActivity.this, ApprovalActivity.class);
+            //save trade details
+            Trade ongoingTrade = ongoingArrayList.get(pos);
+            approvalIntent.putExtra("user", user);
+            approvalIntent.putExtra("trade", ongoingTrade);
+            startActivity(approvalIntent);
 
-            }
         };
     }
 
-    private void PendingGetItem(RecyclerView rv){
-
-        Query query = inv_item_ref.child("otherItemInfo");
-
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Clear();
-                for(DataSnapshot snap:snapshot.getChildren()){
-                    Item item = new Item();
-                    item.setItemID(Objects.requireNonNull(snap.child("itemID").getValue()).toString());
-                    item.setImage(Objects.requireNonNull(snap.child("image").getValue()).toString());
-                    item.setTitle(Objects.requireNonNull(snap.child("title").getValue()).toString());
-                    item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
-                    item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
-                    item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
-                    //TODO:only add items to list that the user has sent out for trade
-
-                }
-
-                ra = new invRecyclerAdapter(getApplicationContext(), itemArrayList, rvListener);
-                rv.setAdapter(ra);
-                setPendingRVOnClickListener();
-                ra.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
-    private void setPendingRVOnClickListener() {
-        rvListener = new invRecyclerAdapter.RecyclerViewOnClickListener() {
-            @Override
-            public void onClick(View v, int pos) {
-                // this click will go to trade activity associated with chosen item
-                Intent tradeIntent = new Intent(TradeBlockActivity.this, TradeActivity.class);
-                //save trade details
-                String otherUser = itemArrayList.get(pos).getUser();
-                String itemID = itemArrayList.get(pos).getItemID();
-                trade = new Trade(itemID, user, otherUser, true, false);
-                tradeIntent.putExtra("user", user);
-                tradeIntent.putExtra("trade", trade);
-                startActivity(tradeIntent);
-
-            }
+    private void setFinishedOnClickListener(){
+        finishedRVListener = (v, pos) -> {
+            // this click will go to trade activity associated with chosen item
+            Intent approvalIntent = new Intent(TradeBlockActivity.this, ApprovalActivity.class);
+            //save trade details
+            Trade finishedTrade = finishedArrayList.get(pos);
+            approvalIntent.putExtra("user", user);
+            approvalIntent.putExtra("trade", finishedTrade);
+            startActivity(approvalIntent);
         };
     }
-
-
     private void init(){
+        ongoing_rv = findViewById(R.id.ongoing_rv);
+        finished_rv = findViewById(R.id.finished_rv);
         tb_home = findViewById(R.id.tb_home_btn);
         tb_tradeblock = findViewById(R.id.tb_tradeblock_btn);
         tb_inventory = findViewById(R.id.tb_inventory_btn);
