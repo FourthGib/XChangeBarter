@@ -1,5 +1,7 @@
 package com.example.xchangebarter.Actor;
-
+/**
+* Represents a user in the system
+*/
 public class Users {
     private String name, email, password;
 

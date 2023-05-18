@@ -63,5 +63,6 @@
         android:layout_marginTop="400dp"
         android:layout_marginRight="70dp"
         android:text="@string/register"
+        android:background="#9D85B1"
         tools:ignore="VisualLintButtonSize" />
 </RelativeLayout>

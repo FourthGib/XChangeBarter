@@ -28,7 +28,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
+/**
+* Activity class for home screen
+ */
 public class Home2Activity extends AppCompatActivity {
 
     private SearchView home_search;
@@ -218,6 +220,6 @@ public class Home2Activity extends AppCompatActivity {
         home = findViewById(R.id.home_btn);
         trade = findViewById(R.id.tradeblock_btn);
         inventory = findViewById(R.id.inventory_btn);
-        profile = findViewById(R.id.profile_btn);
+        profile = findViewById(R.id.prof_logout_btn);
     }
 }
