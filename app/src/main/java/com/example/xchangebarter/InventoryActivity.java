@@ -25,7 +25,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
+/**
+ * Activity class for inventory screen
+ */
 public class InventoryActivity extends AppCompatActivity {
 
     RecyclerView rv;
@@ -173,7 +175,7 @@ public class InventoryActivity extends AppCompatActivity {
         inv_home = findViewById(R.id.inv_home_btn);
         inv_trade = findViewById(R.id.tb_tradeblock_btn);
         inv_inventory = findViewById(R.id.inv_inventory_btn);
-        inv_profile = findViewById(R.id.inv_profile_btn);
+        inv_profile = findViewById(R.id.prof_inventory_btn);
         inv_add = findViewById(R.id.inv_add_btn);
     }
 }

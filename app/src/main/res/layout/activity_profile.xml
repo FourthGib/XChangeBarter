@@ -39,54 +39,24 @@
             android:contentDescription="@string/inventory_button" />
 
         <ImageView
-            android:id="@+id/prof_profile_btn"
+            android:id="@+id/prof_logout_btn"
             android:layout_height="50dp"
             android:layout_width="50dp"
             android:layout_marginStart="35dp"
-            android:src="@drawable/ic_profile"
+            android:src="@drawable/ic_logout_button_foreground"
             android:contentDescription="@string/profile_button" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/prof_pfp"
-        android:layout_width="match_parent"
-        android:layout_height="214dp"
-        app:srcCompat="@drawable/ic_photo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/profile_picture"
-        />
-
-    <TextView
-        android:id="@+id/prof_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/user_name"
-        android:layout_below="@+id/prof_pfp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
-
-    <Button
-        android:id="@+id/prof_user_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/prof_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="10dp"
-        android:text="@string/my_info" />
 
 
     <Button
         android:id="@+id/prof_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:layout_below="@+id/prof_user_info"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
-
+        android:background="#9D85B1"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:text="@string/logout" />
 
 </RelativeLayout>

@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Activity class for editing user information.
+ */
+
 public class editUserInfoActivity extends AppCompatActivity {
 
     private EditText edit_name, edit_email;

@@ -1,5 +1,8 @@
 package com.example.xchangebarter.Item;
-
+/**
+this class serves as a blueprint for creating Items with various properties and provides
+methods to retrieve and update those properties.
+ */
 public class Item {
     String itemID, title, description, tags, image, user;
     boolean available, complete;

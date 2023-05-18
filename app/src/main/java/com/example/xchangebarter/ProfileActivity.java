@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+// import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView username;
+    // private TextView username;
 
-    private Button logout, trade_hist, change_user_info;
+    private Button logout;
 
-    private ImageView prof_home, prof_trade, prof_inventory, prof_profile, prof_pfp;
+    private ImageView prof_home, prof_trade, prof_inventory, prof_profile;
 
     private String user;
     @Override
@@ -37,13 +37,15 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        change_user_info.setOnClickListener(v -> {
+        /**
+        * *change_user_info.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Change User Info", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(ProfileActivity.this, editUserInfoActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
             finish();
         });
+         */
 
         prof_home.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
@@ -78,9 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         prof_home = findViewById(R.id.prof_home_btn);
         prof_trade = findViewById(R.id.tb_tradeblock_btn);
         prof_inventory = findViewById(R.id.prof_inventory_btn);
-        prof_profile = findViewById(R.id.prof_profile_btn);
-        logout = findViewById(R.id.prof_logout);
-        change_user_info = findViewById(R.id.prof_user_info);
-        prof_pfp = findViewById(R.id.prof_pfp);
+        prof_profile = findViewById(R.id.prof_logout_btn);
     }
 }
