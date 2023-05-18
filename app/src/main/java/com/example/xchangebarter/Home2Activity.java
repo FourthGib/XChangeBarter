@@ -155,8 +155,9 @@ public class Home2Activity extends AppCompatActivity {
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
+                    item.setAvailable(Objects.requireNonNull(snap.child("available").getValue()).equals(true));
                     // only add items to list that do not belong to user
-                    if (!Objects.equals(item.getUser(), user)) {
+                    if (!Objects.equals(item.getUser(), user) && item.isAvailable()) {
                         itemArrayList.add(item);
                     }
 
@@ -190,8 +191,6 @@ public class Home2Activity extends AppCompatActivity {
             newTrade = new Trade(itemID, itemTitle, user, otherUser, true, false);
             tradeIntent.putExtra("user", user);
             tradeIntent.putExtra("trade", newTrade);
-            //set trade ID of item to associate it with new trade
-            //TODO: pull item with itemID and set the tradeID to the tradeID of newTrade
             startActivity(tradeIntent);
             finish();
 

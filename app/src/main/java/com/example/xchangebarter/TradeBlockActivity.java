@@ -73,6 +73,7 @@ public class TradeBlockActivity extends AppCompatActivity {
             Intent homeIntent = new Intent(TradeBlockActivity.this, Home2Activity.class);
             homeIntent.putExtra("user", user);
             startActivity(homeIntent);
+            finish();
         });
 
         tb_tradeblock.setOnClickListener(v -> {
@@ -85,16 +86,16 @@ public class TradeBlockActivity extends AppCompatActivity {
         tb_inventory.setOnClickListener(v -> {
             Toast.makeText(TradeBlockActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
             Intent invIntent = new Intent(TradeBlockActivity.this, InventoryActivity.class);
-            startActivity(invIntent);
             invIntent.putExtra("user", user);
+            startActivity(invIntent);
             finish();
         });
 
         tb_profile.setOnClickListener(v -> {
             Toast.makeText(TradeBlockActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
             Intent profileIntent = new Intent(TradeBlockActivity.this, ProfileActivity.class);
-            startActivity(profileIntent);
             profileIntent.putExtra("user", user);
+            startActivity(profileIntent);
             finish();
         });
         setOngoingRVOnClickListener();
@@ -144,10 +145,15 @@ public class TradeBlockActivity extends AppCompatActivity {
                     trade.setPlace(Objects.requireNonNull(snap.child("place").getValue()).toString());
                     trade.setrCompletion(Objects.requireNonNull(snap.child("rCompletion").getValue()).toString());
                     trade.setiCompletion(Objects.requireNonNull(snap.child("iCompletion").getValue()).toString());
-                    if (trade.getiCompletion().equalsIgnoreCase("ongoing") ||
-                            trade.getrCompletion().equalsIgnoreCase("ongoing")) {
+                    //if trade is ongoing, and user is a part of the trade, and one user has not cancelled
+                    if ((trade.getiCompletion().equalsIgnoreCase("ongoing") ||
+                            trade.getrCompletion().equalsIgnoreCase("ongoing")) &&
+                            (trade.getInitiator().equalsIgnoreCase(user) || trade.getReceiver().equalsIgnoreCase(user)) &&
+                            (!trade.getrCompletion().equalsIgnoreCase("cancelled") ||
+                            trade.getiCompletion().equalsIgnoreCase("cancelled"))) {
                         ongoingArrayList.add(trade);
-                    } else {
+                    } //otherwise trade is complete or cancelled
+                    else if (trade.getInitiator().equalsIgnoreCase(user) || trade.getReceiver().equalsIgnoreCase(user)) {
                         finishedArrayList.add(trade);
                     }
 
@@ -192,6 +198,7 @@ public class TradeBlockActivity extends AppCompatActivity {
             approvalIntent.putExtra("user", user);
             approvalIntent.putExtra("trade", finishedTrade);
             startActivity(approvalIntent);
+            finish();
         };
     }
     private void init(){

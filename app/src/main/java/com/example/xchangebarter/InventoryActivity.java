@@ -133,6 +133,7 @@ public class InventoryActivity extends AppCompatActivity {
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
+                    item.setAvailable(Objects.requireNonNull(snap.child("available").getValue()).equals(true));
                     // only show in inventory if item belongs to user
                     if (Objects.equals(item.getUser(), user)){
                         itemArrayList.add(item);

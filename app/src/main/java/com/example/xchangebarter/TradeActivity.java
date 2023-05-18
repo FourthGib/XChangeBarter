@@ -84,7 +84,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         isChosen = false;
         placeSpin = (Spinner) findViewById(R.id.place_spinner);
         places = new ArrayList<>();
-        places.add("Outside Library Floor 1");
+        places.add("Outside Library Floor 2");
         places.add("Starbucks");
         places.add("Outside USU");
         places.add("Outside Health Building");
@@ -156,7 +156,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                                 .into(received_item_image);
 
 
-                        Toast.makeText(TradeActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(TradeActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(TradeActivity.this, "Item is null", Toast.LENGTH_LONG).show();
                     }
@@ -177,6 +177,9 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
             if (isChosen) {
                 //create pending trade in the database
                 createPendingTrade();
+                //mark available fields for items as false
+                received_item_ref.child("available").setValue(false);
+                inv_item_ref.child("otherItemInfo").child(giveItemID).child("available").setValue(false);
                 Toast.makeText(TradeActivity.this, "Send Clicked", Toast.LENGTH_SHORT).show();
                 Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
                 tbIntent.putExtra("user", user);
@@ -301,6 +304,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                     item.setDescription(Objects.requireNonNull(snap.child("description").getValue()).toString());
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
+                    item.setAvailable(Objects.requireNonNull(snap.child("available").getValue()).equals(true));
                     // only show in inventory if item belongs to user
                     if (Objects.equals(item.getUser(), user)){
                         itemArrayList.add(item);

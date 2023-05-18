@@ -99,7 +99,7 @@ public class ApprovalActivity extends AppCompatActivity {
                                 .into(received_item_image);
 
 
-                        Toast.makeText(ApprovalActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(ApprovalActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(ApprovalActivity.this, "Item is null", Toast.LENGTH_LONG).show();
                     }
@@ -144,10 +144,11 @@ public class ApprovalActivity extends AppCompatActivity {
             }
         });
 
+
         // accept the proposed trade -> Trade Block
         accept.setOnClickListener(v -> {
-            // check if accepting a counter offer
-            if (trade.isCountered()){
+            // check if accepting a counter offer or if trade was already accepted by receiver
+            if (trade.isCountered() || trade.getrCompletion().equalsIgnoreCase("complete")){
                 trade.setiCompletion("complete");
             } else{
                 trade.setrCompletion("complete");
@@ -155,7 +156,7 @@ public class ApprovalActivity extends AppCompatActivity {
             trade.setIncoming(true);
             trade.setFresh(false);
             // if this fully completes the trade remove items from database
-            if (trade.getiCompletion().equalsIgnoreCase("complete")){
+            if (trade.getiCompletion().equalsIgnoreCase("complete") && trade.getrCompletion().equalsIgnoreCase("complete")){
                 trade.setStatus("Complete: Accepted by " + trade.getReceiver());
                 given_item_ref.child("trades").child(given_item.getItemID()).removeValue();
                 received_item_ref.child("trades").child(received_item.getItemID()).removeValue();
@@ -176,6 +177,9 @@ public class ApprovalActivity extends AppCompatActivity {
             trade.setStatus("Cancelled: Rejected by " + trade.getReceiver());
             trade.setRejected(true);
             createTradeResponse();
+            //set available back to true for both items
+            received_item_ref.child("available").setValue(true);
+            given_item_ref.child("available").setValue(true);
             Intent tb_intent = new Intent(ApprovalActivity.this, TradeBlockActivity.class);
             tb_intent.putExtra("user", user);
             startActivity(tb_intent);
@@ -188,10 +192,12 @@ public class ApprovalActivity extends AppCompatActivity {
             trade.setFresh(false);
             trade.setIncoming(true);
             trade.setStatus("Pending: Counter Offer by " + trade.getReceiver());
-            // this user becomes initiator
+            // this user becomes new initiator
             trade.setInitiator(trade.getReceiver());
             trade.setReceiverItem(trade.getInitiatorItem());
             trade.setReceiverItemTitle(trade.getInitiatorItemTitle());
+            // set previous initiator item as available again
+            given_item_ref.child("available").setValue(true);
             // trade response will be the trade created in trade activity
             Intent trade_intent = new Intent(ApprovalActivity.this, TradeActivity.class);
             trade_intent.putExtra("user", user);
