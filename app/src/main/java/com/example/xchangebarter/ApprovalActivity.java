@@ -72,6 +72,12 @@ public class ApprovalActivity extends AppCompatActivity {
             counter.setEnabled(false);
         }
 
+        // Check if user is the one who sent trade and if other user has not accepted yet
+        if (trade.getInitiator().equalsIgnoreCase(user) && trade.getrCompletion().equalsIgnoreCase("ongoing")){
+            // do not allow initiator to accept trade yet
+            accept.setEnabled(false);
+        }
+
         back.setOnClickListener(v -> {
             Toast.makeText(ApprovalActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
             Intent homeIntent = new Intent(ApprovalActivity.this, TradeBlockActivity.class);
