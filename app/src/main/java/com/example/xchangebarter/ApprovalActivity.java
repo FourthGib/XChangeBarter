@@ -99,7 +99,7 @@ public class ApprovalActivity extends AppCompatActivity {
                                 .into(received_item_image);
 
 
-                        Toast.makeText(ApprovalActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(ApprovalActivity.this, "Item user: " + received_item.getItemID(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(ApprovalActivity.this, "Item is null", Toast.LENGTH_LONG).show();
                     }
@@ -143,6 +143,7 @@ public class ApprovalActivity extends AppCompatActivity {
                 Toast.makeText(ApprovalActivity.this, "Failed to get item", Toast.LENGTH_LONG).show();
             }
         });
+
 
         // accept the proposed trade -> Trade Block
         accept.setOnClickListener(v -> {

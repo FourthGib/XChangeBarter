@@ -179,7 +179,7 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                 createPendingTrade();
                 //mark available fields for items as false
                 received_item_ref.child("available").setValue(false);
-                inv_item_ref.child("otherItemInfo").child(giveItemID).setValue(false);
+                inv_item_ref.child("otherItemInfo").child(giveItemID).child("available").setValue(false);
                 Toast.makeText(TradeActivity.this, "Send Clicked", Toast.LENGTH_SHORT).show();
                 Intent tbIntent = new Intent(TradeActivity.this, TradeBlockActivity.class);
                 tbIntent.putExtra("user", user);
