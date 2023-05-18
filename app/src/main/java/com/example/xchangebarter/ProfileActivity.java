@@ -77,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void init(){
+        logout = (Button) findViewById(R.id.prof_logout);
         prof_home = findViewById(R.id.prof_home_btn);
         prof_trade = findViewById(R.id.tb_tradeblock_btn);
         prof_inventory = findViewById(R.id.prof_inventory_btn);
