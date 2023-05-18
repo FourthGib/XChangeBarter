@@ -305,8 +305,9 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
                     item.setTags(Objects.requireNonNull(snap.child("tags").getValue()).toString());
                     item.setUser(Objects.requireNonNull(snap.child("user").getValue()).toString());
                     item.setAvailable(Objects.requireNonNull(snap.child("available").getValue()).equals(true));
+                    item.setComplete(Objects.requireNonNull(snap.child("complete").getValue()).equals(true));
                     // only show in inventory if item belongs to user
-                    if (Objects.equals(item.getUser(), user)){
+                    if (Objects.equals(item.getUser(), user) && !item.isComplete()){
                         itemArrayList.add(item);
                     }
 /*
