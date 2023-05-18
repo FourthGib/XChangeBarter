@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +62,15 @@ public class ApprovalActivity extends AppCompatActivity {
         accept = (Button) findViewById(R.id.acceptTradeBtn);
         reject = (Button) findViewById(R.id.rejectTradeBtn);
         counter = (Button) findViewById(R.id.counterTradeBtn);
+        // Check if viewing a completed trade
+        if (trade.getiCompletion().equalsIgnoreCase("complete") && trade.getrCompletion().equalsIgnoreCase("complete")){
+            accept.setVisibility(View.INVISIBLE);
+            accept.setEnabled(false);
+            reject.setVisibility(View.INVISIBLE);
+            reject.setEnabled(false);
+            counter.setVisibility(View.INVISIBLE);
+            counter.setEnabled(false);
+        }
 
         back.setOnClickListener(v -> {
             Toast.makeText(ApprovalActivity.this, "Back Click", Toast.LENGTH_SHORT).show();
@@ -130,7 +140,7 @@ public class ApprovalActivity extends AppCompatActivity {
                                 .into(given_item_image);
 
 
-                        Toast.makeText(ApprovalActivity.this, "Item user: " + given_item.getItemID(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(ApprovalActivity.this, "Item user: " + given_item.getItemID(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(ApprovalActivity.this, "Item is null", Toast.LENGTH_LONG).show();
                     }
@@ -158,8 +168,8 @@ public class ApprovalActivity extends AppCompatActivity {
             // if this fully completes the trade remove items from database
             if (trade.getiCompletion().equalsIgnoreCase("complete") && trade.getrCompletion().equalsIgnoreCase("complete")){
                 trade.setStatus("Complete: Accepted by " + trade.getReceiver());
-                given_item_ref.child("trades").child(given_item.getItemID()).removeValue();
-                received_item_ref.child("trades").child(received_item.getItemID()).removeValue();
+                given_item_ref.child("complete").setValue(true);
+                received_item_ref.child("complete").setValue(true);
             } else{
                 trade.setStatus("Pending: Accepted by " + trade.getReceiver());
             }

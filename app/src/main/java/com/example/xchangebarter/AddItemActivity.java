@@ -144,6 +144,7 @@ public class AddItemActivity extends AppCompatActivity {
                 itemMap.put("title", title);
                 itemMap.put("tags", tags);
                 itemMap.put("available", true);
+                itemMap.put("complete", false);
 
                 itemInfoRef.child(randID).updateChildren(itemMap).addOnCompleteListener(task -> {
                     //success = item info is in the database
