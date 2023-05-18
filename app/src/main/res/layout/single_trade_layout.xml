@@ -14,23 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/item_user_gets"
+            android:id="@+id/give_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="item you give"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/receive_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="item you get"
+            android:layout_below="@+id/give_item"
             android:textAlignment="center"
             android:textSize="20sp"
             />
 
+
+
         <TextView
-            android:id="@+id/item_user_gives"
+            android:id="@+id/trade_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item you give"
-            android:layout_below="@+id/item_user_gets"
+            android:text="trade status"
+            android:layout_below="@+id/receive_item"
             android:textAlignment="center"
             android:textSize="20sp"
             />
+
 
     </RelativeLayout>
 

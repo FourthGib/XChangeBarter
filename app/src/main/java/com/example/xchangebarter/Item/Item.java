@@ -4,9 +4,12 @@ this class serves as a blueprint for creating Items with various properties and 
 methods to retrieve and update those properties.
  */
 public class Item {
-    String itemID, title, description, tags, image, user, tradeID;
+    String itemID, title, description, tags, image, user;
+    boolean available, complete;
 
-    public Item(){}
+    public Item(){
+        complete = false;
+    }
 
     public Item(String itemID, String image,String title,String description,String tags, String user){
         this.itemID = itemID;
@@ -15,6 +18,24 @@ public class Item {
         this.description = description;
         this.tags = tags;
         this.user = user;
+        available = true;
+        complete = false;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getItemID() {
@@ -61,11 +82,4 @@ public class Item {
 
     public void setUser(String user) { this.user = user; }
 
-    public String getTradeID() {
-        return tradeID;
-    }
-
-    public void setTradeID(String tradeID) {
-        this.tradeID = tradeID;
-    }
 }
