@@ -39,7 +39,7 @@ public class tradeRecyclerAdapter extends RecyclerView.Adapter<tradeRecyclerAdap
     @NonNull
     @Override
     public tradeRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_trade_layout,parent,false);
         return new tradeRecyclerAdapter.ViewHolder(view);
     }
 

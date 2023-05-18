@@ -40,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         change_user_info.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Change User Info", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(ProfileActivity.this, editUserInfoActivity.class);
+            intent.putExtra("user", user);
             startActivity(intent);
             finish();
         });
@@ -47,29 +48,29 @@ public class ProfileActivity extends AppCompatActivity {
         prof_home.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Home Click", Toast.LENGTH_SHORT).show();
             Intent homeIntent = new Intent(ProfileActivity.this, Home2Activity.class);
+            homeIntent.putExtra("user", user);
             startActivity(homeIntent);
             finish();
         });
 
         prof_trade.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Bell Click", Toast.LENGTH_SHORT).show();
-            Intent bellIntent = new Intent(ProfileActivity.this, TradeBlockActivity.class);
-            startActivity(bellIntent);
+            Intent tbIntent = new Intent(ProfileActivity.this, TradeBlockActivity.class);
+            tbIntent.putExtra("user", user);
+            startActivity(tbIntent);
             finish();
         });
 
         prof_inventory.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Inventory Click", Toast.LENGTH_SHORT).show();
             Intent invIntent = new Intent(ProfileActivity.this, InventoryActivity.class);
+            invIntent.putExtra("user", user);
             startActivity(invIntent);
             finish();
         });
 
         prof_profile.setOnClickListener(v -> {
             Toast.makeText(ProfileActivity.this, "Profile Click", Toast.LENGTH_SHORT).show();
-            Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
-            startActivity(profileIntent);
-            finish();
         });
     }
 
@@ -79,7 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         prof_inventory = findViewById(R.id.prof_inventory_btn);
         prof_profile = findViewById(R.id.prof_profile_btn);
         logout = findViewById(R.id.prof_logout);
-        trade_hist = findViewById(R.id.prof_trade_hist);
         change_user_info = findViewById(R.id.prof_user_info);
         prof_pfp = findViewById(R.id.prof_pfp);
     }

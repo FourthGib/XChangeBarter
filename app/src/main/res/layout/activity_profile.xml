@@ -78,21 +78,13 @@
         android:layout_marginRight="10dp"
         android:text="@string/my_info" />
 
-    <Button
-        android:id="@+id/prof_trade_hist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/trade_history"
-        android:layout_below="@+id/prof_user_info"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
 
     <Button
         android:id="@+id/prof_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/logout"
-        android:layout_below="@+id/prof_trade_hist"
+        android:layout_below="@+id/prof_user_info"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 
